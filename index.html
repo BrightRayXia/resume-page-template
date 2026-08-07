@@ -1457,6 +1457,20 @@
           themesBox.appendChild(dot);
         });
       }
+      // 案例索引链接：neon 下改为分页跳转（锚点在分页模式下被锁死）
+      document.querySelectorAll('.case-nav-item').forEach(function(link){
+        link.addEventListener('click', function(e){
+          if(document.body.getAttribute('data-theme') !== 'neon') return;
+          e.preventDefault();
+          var target = link.getAttribute('href').slice(1); // #case-xxx
+          for(var i = 0; i < self.slides.length; i++){
+            if(self.slides[i].id === target){
+              self.jump(i);
+              break;
+            }
+          }
+        });
+      });
       // 键盘翻页
       document.addEventListener('keydown', function(e){
         if(document.body.getAttribute('data-theme') !== 'neon') return;
