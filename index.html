@@ -170,6 +170,26 @@
     padding:0 48px;
     box-sizing:border-box;
   }
+  /* 卡片类元素在 neon 下保留自身内边距（不被上面的 0 48px 覆盖） */
+  body[data-theme="neon"] .content > section > .callout,
+  body[data-theme="neon"] .content > section > .opening,
+  body[data-theme="neon"] .content > section > .contact-cards,
+  body[data-theme="neon"] .content > section .callout{
+    padding:30px 32px;
+  }
+  body[data-theme="neon"] .content > section .works-card,
+  body[data-theme="neon"] .content > section .case-nav-item,
+  body[data-theme="neon"] .content > section .contact-card{
+    padding:26px 28px 24px;
+  }
+  body[data-theme="neon"] .content > section .works-grid,
+  body[data-theme="neon"] .content > section .case-nav{
+    padding:0 24px;
+  }
+  body[data-theme="neon"] .content > section .works-intro{
+    margin:0 auto 28px;
+    padding:0 48px;
+  }
   /* 标题页眉：固定在顶部，不参与正文居中 */
   body[data-theme="neon"] .content > section > .section-label{
     position:absolute;top:74px;left:50%;transform:translateX(-50%);
@@ -208,13 +228,22 @@
   body[data-theme="neon"] .entry-head .e-time{font-size:12px;color:var(--faint);}
   body[data-theme="neon"] .entry .e-title{font-size:19px;}
   body[data-theme="neon"] .c-meta{font-size:12.5px;}
-  /* neon 下 hero 居中、字号加大；隐藏联系行（底部已常驻联系信息） */
+  /* neon 下 hero 居中、字号加大；隐藏 tags/联系行/旧intent，感谢语放大 */
   body[data-theme="neon"] .hero h1{font-size:64px;}
-  body[data-theme="neon"] .hero .tags{font-size:15px;}
+  body[data-theme="neon"] .hero .tags{display:none;}
   body[data-theme="neon"] .hero .contact-line{display:none;}
   body[data-theme="neon"] .hero .intent{display:none;}
+  body[data-theme="neon"] .hero .hero-thanks{
+    margin-top:26px;max-width:640px;
+    font-size:17px;line-height:1.9;color:var(--muted);
+  }
+  body[data-theme="neon"] .hero .hero-thanks strong{color:var(--ink);}
+  body[data-theme="neon"] .hero .hero-thanks b{color:#fb923c;}
   /* neon 下隐藏 rail，dock 改为右上角常驻操作条 */
   body[data-theme="neon"] .rail{display:none !important;}
+  /* neon 下隐藏开场白卡片与页脚（叙事流中已被「我是谁」页和「联系我」页承接） */
+  body[data-theme="neon"] .content > .opening{display:none !important;}
+  body[data-theme="neon"] footer{display:none !important;}
   body[data-theme="neon"] .dock{
     display:flex !important;
     position:fixed;top:22px;right:26px;left:auto;
@@ -582,7 +611,11 @@
   .hero .role{margin-top:12px;font-size:19px;color:var(--ink);font-weight:600;}
   .hero .role .sep{color:var(--accent);margin:0 6px;}
   .hero .tags{margin-top:12px;font-size:14px;color:var(--muted);letter-spacing:.02em;}
-  .hero .intent{margin-top:18px;font-size:14px;color:var(--accent);font-weight:600;}
+  .hero .hero-thanks{
+    margin:22px auto 0;max-width:560px;
+    font-size:15px;line-height:1.85;color:var(--muted);
+  }
+  .hero .hero-thanks strong{color:var(--ink);}
   .hero .contact-line{margin-top:10px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;}
   .hero .hero-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
   .hero .hero-actions .tool-btn{padding:10px 20px;font-size:14px;}
@@ -707,22 +740,22 @@
     background:var(--card-bg);
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     border:1px solid rgba(var(--accent-rgb),.18);
-    border-radius:16px;padding:22px 24px;
+    border-radius:16px;padding:30px 32px;
     box-shadow:0 8px 32px rgba(var(--accent-rgb),.08);
   }
-  .callout p{margin-bottom:10px;}
+  .callout p{margin-bottom:12px;}
   .callout p:last-child{margin-bottom:0;}
 
   /* ============ 作品集 ============ */
-  .works-intro{font-size:14px;color:var(--muted);margin-bottom:18px;}
-  .works-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .works-intro{font-size:14px;color:var(--muted);margin-bottom:30px;line-height:1.8;}
+  .works-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
   .works-card{
     position:relative;overflow:hidden;
     display:flex;flex-direction:column;
     border:1px solid var(--card-border);border-radius:16px;
     background:var(--card-bg);
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    padding:18px 20px 16px;
+    padding:26px 28px 24px;
     text-decoration:none;border-bottom:1px solid var(--card-border);
     box-shadow:0 8px 28px rgba(var(--accent-rgb),.07);
     transition:all .15s ease;
@@ -739,11 +772,11 @@
     display:inline-flex;align-items:center;gap:4px;
     font-size:12px;font-weight:600;color:var(--accent);
     background:var(--accent-soft);border:1px solid rgba(var(--accent-rgb),.2);
-    border-radius:20px;padding:3px 10px;margin-bottom:10px;
+    border-radius:20px;padding:3px 10px;margin-bottom:14px;
   }
-  .works-card .wc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px;}
-  .works-card .wc-desc{font-size:13.5px;color:var(--muted);line-height:1.7;flex:1;}
-  .works-card .wc-links{margin-top:12px;font-size:13px;display:flex;gap:14px;}
+  .works-card .wc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+  .works-card .wc-desc{font-size:13.5px;color:var(--muted);line-height:1.75;flex:1;}
+  .works-card .wc-links{margin-top:16px;font-size:13px;display:flex;gap:14px;padding-top:12px;border-top:1px solid var(--line);}
   .works-card .wc-links a{border:none;color:var(--accent);font-weight:600;}
   .works-card .wc-links a:hover{border-bottom:1px solid var(--accent);}
   @media (max-width:720px){
