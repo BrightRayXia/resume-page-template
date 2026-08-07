@@ -42,17 +42,21 @@
   }
   /* 主题：高饱和电光紫 */
   body[data-theme="purple"]{
-    --bg:#ffffff;
+    --bg:linear-gradient(160deg,#ffffff 0%,#fbf7ff 35%,#f5eeff 70%,#fdf5ff 100%);
     --ink:#1c1f24; --muted:#5c6570; --faint:#8a939e; --line:#e6e8ec;
     --accent:#7c3aed; --accent-strong:#6d28d9; --accent-soft:#f3effe; --accent-soft-strong:#e9e0fd;
     --accent-rgb:124,58,237; --accent-2:#9333ea; --accent-2-rgb:147,51,234; --accent-3:#c026d3;
-    --card-bg:#ffffff; --card-bg-solid:#ffffff; --card-bg-soft:#ffffff;
-    --card-border:rgba(124,58,237,.14);
-    --bar-bg:rgba(255,255,255,.92);
-    --panel-bg:#fafbfc; --chip-bg:#f4f5f7; --note-bg:#f7f8fa;
+    --card-bg:rgba(255,255,255,.5); --card-bg-solid:rgba(255,255,255,.62); --card-bg-soft:rgba(255,255,255,.42);
+    --card-border:rgba(124,58,237,.2);
+    --bar-bg:rgba(255,255,255,.85);
+    --panel-bg:#faf8ff; --chip-bg:#f6f2ff; --note-bg:#faf7ff;
     --rail:#c9d0d9;
-    --hero-glow:none; --pill-glow:rgba(124,58,237,.3);
-    --glow:none;
+    --hero-glow:rgba(147,51,234,.22); --pill-glow:rgba(124,58,237,.35);
+    --glow:radial-gradient(520px 400px at 15% 10%,rgba(196,181,253,.35) 0%,transparent 70%),
+            radial-gradient(480px 360px at 85% 15%,rgba(240,171,252,.22) 0%,transparent 70%),
+            radial-gradient(560px 420px at 75% 65%,rgba(165,180,252,.22) 0%,transparent 70%),
+            radial-gradient(460px 380px at 20% 75%,rgba(233,213,255,.25) 0%,transparent 70%),
+            radial-gradient(640px 440px at 50% 100%,rgba(167,139,250,.16) 0%,transparent 75%);
   }
   /* 主题：深色青霓虹 */
   body[data-theme="neon"]{
@@ -88,6 +92,84 @@
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:var(--glow);
   }
+  /* Purple 主题：噪点纹理（前沿玻璃拟态） */
+  body[data-theme="purple"]::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+  }
+  /* ============ Neon 主题：开场全屏动画 ============ */
+  .intro-overlay{
+    position:fixed;inset:0;z-index:999;
+    display:none;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#0a1820 0%,#0c2030 45%,#081420 100%);
+    flex-direction:column;text-align:center;
+    overflow:hidden;
+  }
+  .intro-overlay .io-glow{
+    position:absolute;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle,rgba(45,212,191,.28),rgba(34,211,238,.14) 45%,transparent 70%);
+    filter:blur(30px);animation:ioPulse 3s ease-in-out infinite;
+  }
+  .intro-overlay .io-glow.g2{width:420px;height:420px;top:auto;bottom:-120px;right:-80px;background:radial-gradient(circle,rgba(34,211,238,.22),transparent 70%);animation-delay:1.2s;}
+  .intro-overlay .io-hello{
+    font-size:15px;letter-spacing:.5em;color:rgba(159,189,183,.85);margin-bottom:18px;
+    animation:ioIn .8s ease both .2s;
+  }
+  .intro-overlay .io-name{
+    font-size:clamp(40px,7vw,72px);font-weight:800;line-height:1.15;
+    background:linear-gradient(100deg,#2dd4bf 0%,#22d3ee 55%,#34d399 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 4px 26px rgba(45,212,191,.45));
+    animation:ioIn .9s ease both .5s;
+  }
+  .intro-overlay .io-role{
+    margin-top:16px;font-size:14px;color:rgba(159,189,183,.8);letter-spacing:.14em;
+    animation:ioIn .9s ease both .8s;
+  }
+  .intro-overlay .io-hint{
+    position:absolute;bottom:42px;font-size:12px;color:rgba(95,125,120,.8);letter-spacing:.2em;
+    animation:ioIn 1s ease both 1.6s, ioBlink 2.2s ease-in-out 2s infinite;
+  }
+  @keyframes ioIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes ioPulse{0%,100%{transform:scale(1);opacity:.8;}50%{transform:scale(1.12);opacity:1;}}
+  @keyframes ioBlink{0%,100%{opacity:.4;}50%{opacity:1;}}
+  /* 翻页进入：主内容先藏在翻页"背面"，overlay 翻走 */
+  .intro-overlay.flip-out{
+    animation:ioFlipOut .9s cubic-bezier(.65,.05,.36,1) forwards;
+  }
+  @keyframes ioFlipOut{
+    0%{transform:rotateX(0deg);opacity:1;}
+    100%{transform:rotateX(-96deg);opacity:0;transform-origin:top center;}
+  }
+  body[data-theme="neon"] .intro-overlay{display:flex;}
+  @media print{ .intro-overlay{display:none !important;} }
+  /* Purple 主题：玻璃卡片顶部高光 + 悬浮光斑 */
+  body[data-theme="purple"] .opening,
+  body[data-theme="purple"] .callout,
+  body[data-theme="purple"] .works-card,
+  body[data-theme="purple"] .dock .dock-card,
+  body[data-theme="purple"] .dock .theme-picker{
+    position:relative;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 10px 36px rgba(124,58,237,.10);
+  }
+  body[data-theme="purple"] .opening::before,
+  body[data-theme="purple"] .callout::before,
+  body[data-theme="purple"] .works-card::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(120deg,rgba(255,255,255,.7) 0%,transparent 38%,transparent 72%,rgba(196,181,253,.28) 100%);
+  }
+  body[data-theme="purple"] .opening::after,
+  body[data-theme="purple"] .callout::after{
+    content:"";position:absolute;top:-60px;right:-60px;width:130px;height:130px;border-radius:50%;
+    background:radial-gradient(circle,rgba(192,132,252,.25),transparent 70%);
+    filter:blur(6px);pointer-events:none;
+  }
+  /* Purple 主题：hero 名字轻微辉光 + 章节色块更亮 */
+  body[data-theme="purple"] .hero h1{filter:drop-shadow(0 3px 18px rgba(147,51,234,.3));}
+  body[data-theme="purple"] .rail a.active{box-shadow:0 0 0 1px rgba(147,51,234,.3), 0 4px 20px rgba(124,58,237,.5), 0 0 26px rgba(192,132,252,.4);}
+  /* Purple 主题：卡片 hover 上浮更明显 */
+  body[data-theme="purple"] .works-card:hover{transform:translateY(-4px);}
+  body[data-theme="purple"] .works-card:hover::before{box-shadow:0 0 22px rgba(192,132,252,.65);}
   main{padding:0;}
   .stage{max-width:900px;margin:0 auto;}
   .content{padding:0 20px 96px;}
@@ -107,6 +189,11 @@
   ul{padding-left:1.2em;color:var(--muted);}
   li{margin-bottom:7px;}
   .num{color:var(--accent);font-weight:700;}
+  /* Emoji 点缀：默认隐藏，仅 Purple 主题显示 */
+  .theme-emoji{display:none;}
+  body[data-theme="purple"] .theme-emoji{display:inline;}
+  body[data-theme="purple"] #soft li{list-style:none;padding-left:1.4em;position:relative;}
+  body[data-theme="purple"] #soft li .theme-emoji{position:absolute;left:0;top:.15em;font-size:1.05em;}
   .ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;display:inline-block;}
   .sub-label{font-size:14px;font-weight:700;color:var(--ink);margin:20px 0 8px;}
   .sub-label:first-child{margin-top:0;}
@@ -484,6 +571,16 @@
 </head>
 <body>
 
+<!-- ================= Neon 主题开场全屏动画 ================= -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="io-glow"></div>
+  <div class="io-glow g2"></div>
+  <div class="io-hello">HELLO</div>
+  <div class="io-name">我是明霞</div>
+  <div class="io-role">高级产品经理 · AI 应用与复杂业务解决方案</div>
+  <div class="io-hint">✦ 即将进入我的介绍 ✦</div>
+</div>
+
 <!-- ================= 顶部工具栏（移动端） ================= -->
 <header class="topbar">
   <div class="topbar-inner">
@@ -615,12 +712,12 @@
   <section id="soft">
     <div class="section-label"><svg class="ic sl-ic"><use href="#i-heart"/></svg>个人特质 · Character</div>
     <ul>
-      <li>信息不完整、各方诉求互相冲突的时候，依然能稳住结构化的思路，把模糊的问题收敛成清晰可执行的决策路径。</li>
-      <li>既能用客户的语言听懂业务，也能用研发的语言讲清需求，让需求在两端之间被准确、无损地传递。</li>
-      <li>有 owner 心态，对最终结果负责到底——从问题定义到交付验收全程兜底，主动补齐协作里的空白地带。</li>
-      <li>具备跳出研发视角的商业思维，习惯从市场与客户的角度审视产品决策；也有商业推广的落地经历，理解从产品到市场的完整链路。</li>
-      <li>横跨连锁餐饮、供应链、医疗健康、行业数据应用等多个行业，能快速学习新行业的业务逻辑并切入其中。</li>
-      <li>把 AI 融入产品工作的每个环节，实践 vibe coding，亲手把产品想法迭代成可运行的应用，形成不断演进的方法论。</li>
+      <li><span class="theme-emoji">🧩</span> 信息不完整、各方诉求互相冲突的时候，依然能稳住结构化的思路，把模糊的问题收敛成清晰可执行的决策路径。</li>
+      <li><span class="theme-emoji">🗣️</span> 既能用客户的语言听懂业务，也能用研发的语言讲清需求，让需求在两端之间被准确、无损地传递。</li>
+      <li><span class="theme-emoji">🙌</span> 有 owner 心态，对最终结果负责到底——从问题定义到交付验收全程兜底，主动补齐协作里的空白地带。</li>
+      <li><span class="theme-emoji">📈</span> 具备跳出研发视角的商业思维，习惯从市场与客户的角度审视产品决策；也有商业推广的落地经历，理解从产品到市场的完整链路。</li>
+      <li><span class="theme-emoji">🧭</span> 横跨连锁餐饮、供应链、医疗健康、行业数据应用等多个行业，能快速学习新行业的业务逻辑并切入其中。</li>
+      <li><span class="theme-emoji">🤖</span> 把 AI 融入产品工作的每个环节，实践 vibe coding，亲手把产品想法迭代成可运行的应用，形成不断演进的方法论。</li>
     </ul>
   </section>
 
@@ -926,6 +1023,7 @@
 </main>
 
 <script>
+  /* 主题切换：默认浅色霓虹，localStorage 记忆 */
   var THEMES = ['classic', 'purple', 'aurora', 'neon'];
   function applyTheme(theme){
     if(THEMES.indexOf(theme) === -1) theme = 'aurora';
@@ -942,6 +1040,45 @@
     var saved = null;
     try{ saved = localStorage.getItem('resume-theme'); }catch(e){}
     applyTheme(saved || 'aurora');
+  })();
+
+  /* Neon 主题：开场全屏动画（3.2s 后翻页进入内容） */
+  var introTimer = null;
+  function playIntro(){
+    var overlay = document.getElementById('introOverlay');
+    if(!overlay) return;
+    clearTimeout(introTimer);
+    overlay.classList.remove('flip-out');
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    introTimer = setTimeout(function(){
+      overlay.classList.add('flip-out');
+      document.body.style.overflow = '';
+      setTimeout(function(){ overlay.style.display = 'none'; }, 900);
+    }, 3200);
+  }
+  function skipIntro(){
+    var overlay = document.getElementById('introOverlay');
+    if(!overlay) return;
+    clearTimeout(introTimer);
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  /* 主题切换时联动开场动画（neon 才播） */
+  function applyThemeWithIntro(theme){
+    applyTheme(theme);
+    if(theme === 'neon'){ playIntro(); } else { skipIntro(); }
+  }
+  function setTheme(theme){
+    applyThemeWithIntro(theme);
+    try{ localStorage.setItem('resume-theme', theme); }catch(e){}
+  }
+  /* 页面首次加载：neon 主题自动开场 */
+  (function(){
+    var saved = null;
+    try{ saved = localStorage.getItem('resume-theme'); }catch(e){}
+    applyTheme(saved || 'aurora');
+    if(saved === 'neon'){ playIntro(); }
   })();
 
   function toggleMode(){
