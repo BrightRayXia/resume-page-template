@@ -64,6 +64,7 @@
     --ink:#e6f6f3; --muted:#9fbdb7; --faint:#5f7d78; --line:rgba(148,220,205,.16);
     --accent:#2dd4bf; --accent-strong:#14b8a6; --accent-soft:rgba(45,212,191,.12); --accent-soft-strong:rgba(45,212,191,.2);
     --accent-rgb:45,212,191; --accent-2:#22d3ee; --accent-2-rgb:34,211,238; --accent-3:#34d399;
+    --heat:#fb923c; --heat-2:#f97316; --heat-rgb:251,146,60;
     --card-bg:rgba(8,28,26,.55); --card-bg-solid:rgba(8,28,26,.7); --card-bg-soft:rgba(8,28,26,.5);
     --card-border:rgba(45,212,191,.22);
     --bar-bg:rgba(8,18,26,.92);
@@ -192,9 +193,34 @@
   /* neon 下 hero 居中、字号加大 */
   body[data-theme="neon"] .hero h1{font-size:64px;}
   body[data-theme="neon"] .hero .tags{font-size:15px;}
-  /* neon 下隐藏 rail 和 dock 的通用操作卡（保留主题切换），显示演示控制条 */
+  /* neon 下隐藏 rail，dock 改为右上角常驻操作条 */
   body[data-theme="neon"] .rail{display:none !important;}
-  body[data-theme="neon"] .dock{display:none !important;}
+  body[data-theme="neon"] .dock{
+    display:flex !important;
+    position:fixed;top:22px;right:26px;left:auto;
+    flex-direction:row;gap:8px;
+    grid-column:auto;grid-row:auto;
+    z-index:80;
+  }
+  body[data-theme="neon"] .dock .dock-card{
+    width:auto;height:36px;padding:0 14px;border-radius:18px;
+    font-size:12.5px;
+    border:1px solid rgba(45,212,191,.28);
+    background:rgba(8,28,26,.55);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    color:#9fbdb7;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
+  }
+  body[data-theme="neon"] .dock .dock-card:hover{color:#e6f6f3;border-color:#2dd4bf;}
+  body[data-theme="neon"] .dock .dock-card.dock-primary{
+    background:linear-gradient(100deg,#2dd4bf 0%,#22d3ee 45%,#fb923c 100%);
+    border-color:transparent;color:#06121a;font-weight:600;
+  }
+  body[data-theme="neon"] .dock .dock-card.dock-primary:hover{color:#06121a;}
+  body[data-theme="neon"] .dock .theme-picker{
+    display:none;
+  }
+  body[data-theme="neon"] .dock .dock-card.on{color:#2dd4bf;border-color:#2dd4bf;background:rgba(45,212,191,.15);}
   /* 主题切换在控制条里提供 */
   .deck-themes{
     display:flex;gap:6px;margin-left:4px;
@@ -226,6 +252,7 @@
   .deck-bar .db-counter{font-variant-numeric:tabular-nums;color:#e6f6f3;font-weight:600;min-width:44px;text-align:center;}
   .deck-bar .db-progress{width:120px;height:3px;border-radius:2px;background:rgba(148,220,205,.18);overflow:hidden;}
   .deck-bar .db-progress i{display:block;height:100%;background:linear-gradient(90deg,#2dd4bf,#22d3ee);width:0;transition:width .3s ease;}
+  body[data-theme="neon"] .deck-bar .db-progress i{background:linear-gradient(90deg,#2dd4bf,#22d3ee 55%,#fb923c);}
   .deck-bar button{
     background:none;border:none;cursor:pointer;
     width:26px;height:26px;border-radius:50%;
@@ -235,12 +262,49 @@
   .deck-bar button:hover{color:#e6f6f3;background:rgba(45,212,191,.15);}
   .deck-bar .db-play{color:#2dd4bf;}
   .deck-bar .db-play.playing{color:#22d3ee;}
+  body[data-theme="neon"] .deck-bar .db-play{color:#fb923c;}
+  body[data-theme="neon"] .deck-bar .db-play.playing{color:#f97316;}
+  /* neon 暖橙强调：当前页码 + 关键词 + 胶囊 + hero */
+  body[data-theme="neon"] .db-counter span:first-child{color:#fb923c;}
+  body[data-theme="neon"] .content > section strong{color:#fb923c;}
+  body[data-theme="neon"] .rail a.active,
+  body[data-theme="neon"] .dock .dock-card.dock-primary{
+    background:linear-gradient(100deg,#2dd4bf 0%,#22d3ee 45%,#fb923c 100%);
+  }
+  body[data-theme="neon"] .hero h1{
+    background:linear-gradient(100deg,#2dd4bf 0%,#22d3ee 45%,#fb923c 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 4px 26px rgba(45,212,191,.4));
+  }
+  body[data-theme="neon"] .intro-overlay .io-name{
+    background:linear-gradient(100deg,#2dd4bf 0%,#22d3ee 45%,#fb923c 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  body[data-theme="neon"] .case-nav-item .cn-num{color:#fb923c;}
+  body[data-theme="neon"] .section-label{color:#2dd4bf;}
+  body[data-theme="neon"] .section-label::before{background:linear-gradient(180deg,#2dd4bf,#fb923c);}
   /* 页序号角标 */
   body[data-theme="neon"] .slide-num{
     position:absolute;top:34px;right:44px;
     font-size:13px;color:rgba(95,125,120,.7);letter-spacing:.1em;
     font-variant-numeric:tabular-nums;
   }
+  /* Neon 页尾常驻联系信息条（默认隐藏，仅 neon 显示） */
+  .deck-footer{display:none;}
+  body[data-theme="neon"] .deck-footer{
+    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:75;
+    align-items:center;justify-content:center;gap:26px;
+    padding:9px 16px 8px;
+    background:linear-gradient(180deg,rgba(5,16,24,0) 0%,rgba(5,16,24,.9) 40%);
+    font-size:12px;color:rgba(159,189,183,.75);
+    pointer-events:none;
+  }
+  body[data-theme="neon"] .deck-footer .df-name{color:#e6f6f3;font-weight:600;letter-spacing:.06em;}
+  body[data-theme="neon"] .deck-footer .df-sep{color:rgba(148,220,205,.35);}
+  body[data-theme="neon"] .deck-footer .df-item{display:inline-flex;align-items:center;gap:6px;}
+  body[data-theme="neon"] .deck-footer .ic{width:12px;height:12px;color:#2dd4bf;}
+  /* 控制条上移让位给页尾信息条 */
+  body[data-theme="neon"] .deck-bar{bottom:46px;}
   /* 移动端 neon 回退滚动 */
   @media (max-width:767px){
     body[data-theme="neon"] main{height:auto;overflow:visible;}
@@ -255,7 +319,9 @@
     body[data-theme="neon"] .content > section > *{opacity:1 !important;transform:none !important;animation:none !important;}
     body[data-theme="neon"] .case-page{overflow:visible;padding:56px 0 8px;}
     body[data-theme="neon"] .deck-bar{display:none !important;}
+    body[data-theme="neon"] .deck-footer{display:none !important;}
     body[data-theme="neon"] .slide-num{display:none;}
+    body[data-theme="neon"] .dock{display:none !important;}
     body[data-theme="neon"] .hero h1{font-size:44px;}
     body[data-theme="neon"] .intro-overlay .io-name{font-size:44px;}
   }
@@ -681,6 +747,7 @@
       padding:0 !important;max-width:none !important;margin:0 !important;
     }
     body[data-theme="neon"] .deck-bar,
+    body[data-theme="neon"] .deck-footer,
     body[data-theme="neon"] .slide-num{display:none !important;}
     .topbar,.rail,.dock,.hero .hero-actions,footer .f-actions,footer .f-note,
     .only-full,details,.extended{display:none !important;}
@@ -868,23 +935,21 @@
   <!-- ================= 3. 专业能力概览 ================= -->
   <section id="capability">
     <div class="section-label"><svg class="ic sl-ic"><use href="#i-zap"/></svg>专业能力概览 · Capabilities</div>
-    <p>6 年 B/G 端产品与复杂项目交付经验，覆盖连锁餐饮、供应链、医疗健康等行业数据场景，兼具<strong>产品规划、交付协调与商务测算</strong>的复合背景。</p>
-    <p style="margin-top:12px;">习惯在需求不清、多方诉求冲突、资源受限的局面中先<strong>厘清业务问题</strong>，再把非标准需求转成<strong>可报价、可研发、可交付</strong>的产品方案。</p>
-    <p style="margin-top:12px;">能独立推动产品全链路：从需求调研、业务建模、功能与交互设计，到研发协同、边界梳理与客户沟通，直到<strong>关键决策落地</strong>。</p>
-    <p style="margin-top:12px;">长期实践大模型与 Agent 的产品化应用，把 AI 用在需求分析、方案推演、信息整理与原型验证上；擅长从<strong>业务流程、数据输入输出与人工校验</strong>出发设计 AI 应用。</p>
+    <p>我做 B/G 端产品做了 6 年，一路跑过连锁餐饮、供应链、医疗健康这些行业数据方向，<strong>产品规划、交付协调、商务测算</strong>这三件事是我日常在做、也做得最多的。</p>
+    <p style="margin-top:14px;">多数时候需求是不清的，各方诉求互相打架，资源还总不够。这种环境我反而比较拿手——能先把<strong>业务问题理清楚</strong>，再把说不清的需求变成<strong>能报价、能研发、能交付</strong>的方案。</p>
+    <p style="margin-top:14px;">从需求调研到业务建模，再到功能交互设计、研发协同、边界梳理和客户沟通，整个链路我都能独立推动，最后把<strong>关键决策落到地上</strong>。</p>
+    <p style="margin-top:14px;">这两年我持续把大模型和 Agent 用进产品工作——做需求分析、方案推演、信息整理、原型验证，也开始琢磨怎么从业务流程和人工校验出发，设计真正可用的 AI 应用。</p>
   </section>
 
   <!-- ================= 4. 个人特质 ================= -->
   <section id="soft">
     <div class="section-label"><svg class="ic sl-ic"><use href="#i-heart"/></svg>个人特质 · Character</div>
-    <ul>
-      <li><span class="theme-emoji">🧩</span> 信息不完整、各方诉求互相冲突的时候，依然能稳住结构化的思路，把模糊的问题收敛成清晰可执行的决策路径。</li>
-      <li><span class="theme-emoji">🗣️</span> 既能用客户的语言听懂业务，也能用研发的语言讲清需求，让需求在两端之间被准确、无损地传递。</li>
-      <li><span class="theme-emoji">🙌</span> 有 owner 心态，对最终结果负责到底——从问题定义到交付验收全程兜底，主动补齐协作里的空白地带。</li>
-      <li><span class="theme-emoji">📈</span> 具备跳出研发视角的商业思维，习惯从市场与客户的角度审视产品决策；也有商业推广的落地经历，理解从产品到市场的完整链路。</li>
-      <li><span class="theme-emoji">🧭</span> 横跨连锁餐饮、供应链、医疗健康、行业数据应用等多个行业，能快速学习新行业的业务逻辑并切入其中。</li>
-      <li><span class="theme-emoji">🤖</span> 把 AI 融入产品工作的每个环节，实践 vibe coding，亲手把产品想法迭代成可运行的应用，形成不断演进的方法论。</li>
-    </ul>
+    <p>越乱的环境我越稳。信息不全、诉求互相打架的时候，我能把模糊的问题<strong>收敛成清晰可执行的决策路径</strong>，让事情先往前走。</p>
+    <p style="margin-top:14px;"><span class="theme-emoji">🗣️</span> 我在客户和研发之间来回切换语言——用客户的嘴听懂业务，用研发的话讲清需求，让需求在两端之间<strong>准确、无损地传递</strong>。</p>
+    <p style="margin-top:14px;"><span class="theme-emoji">🙌</span> 我习惯把项目当成自己的事，对结果负责到底。从问题定义到交付验收都接着，协作里没人管的地方，我主动补上。</p>
+    <p style="margin-top:14px;"><span class="theme-emoji">📈</span> 我不只站在研发里看产品。懂市场、懂客户、也有商业推广的落地经历，知道一个产品<strong>怎么一步步走到市场</strong>。</p>
+    <p style="margin-top:14px;"><span class="theme-emoji">🧭</span> 我横跨过连锁餐饮、供应链、医疗健康这些行业，换到新领域能很快<strong>吃透业务逻辑、切入干活</strong>。</p>
+    <p style="margin-top:14px;"><span class="theme-emoji">🤖</span> 最近我几乎把 AI 用进了产品工作的每个环节，实践 vibe coding，亲手把想法迭代成能跑的应用——这套做法正在慢慢变成我自己的方法论。</p>
   </section>
 
   <!-- ================= 5. 工作经验 ================= -->
@@ -899,16 +964,12 @@
         </div>
         <div class="e-time">2019.08 — 至今</div>
       </div>
-      <div class="e-pos"><strong>2021.01 — 至今 · 高级产品经理 / 核心产品负责人</strong></div>
-      <ul>
-        <li>负责连锁餐饮数字化、供应链协同及 AI 应用等产品线的<strong>需求分析、方案设计、研发协同、售前支持与交付推进</strong></li>
-        <li>2023 年起承担产品团队管理与协调：负责产品新人任务分配、培养与方案把关；2023 年底兼任测试团队管理，统筹两地 <strong>12 人</strong>日常协作</li>
-        <li>2024 年组织调整后，作为<strong>研发体系唯一保留的产品经理</strong>，持续推进研发、销售、客户与合作方之间的需求对齐、售前支持与关键问题协调</li>
-      </ul>
-      <div class="e-pos"><strong>2019.08 — 2020.12 · 项目实施 / 总部运营轮岗</strong></div>
-      <ul>
-        <li>参与一线项目交付与管理工作；在总部运营部门参与组织效能相关工作，形成项目落地与组织协同的复合视角</li>
-      </ul>
+      <p class="c-line"><strong>2021.01 至今 · 高级产品经理 / 核心产品负责人</strong></p>
+      <p style="margin-top:8px;">我从 2021 年起负责连锁餐饮数字化、供应链协同和 AI 应用这些产品线的<strong>需求、方案、研发协同到售前交付</strong>一整条线。</p>
+      <p style="margin-top:10px;">2023 年开始带产品团队，负责新人的任务分配、培养和方案把关；年底又兼任测试团队管理，统筹两地 <strong>12 人</strong>的日常协作。</p>
+      <p style="margin-top:10px;">2024 年组织调整后，我是研发体系<strong>唯一保留的产品经理</strong>——研发、销售、客户、合作方之间的需求对齐和关键问题协调，几乎都压到我这里。</p>
+      <p class="c-line" style="margin-top:14px;"><strong>2019.08 — 2020.12 · 项目实施 / 总部运营轮岗</strong></p>
+      <p style="margin-top:8px;">前两年我一边扎进一线项目做交付与管理工作，一边在总部运营部门做组织效能相关的工作，既懂项目落地，也懂组织怎么运转。</p>
     </div>
   </section>
 
@@ -935,11 +996,9 @@
       </div>
       <div class="c-meta">连锁餐饮 · 门店管理 | 协调 3 个开发团队</div>
       <p class="c-line"><b>项目定位：</b>将连锁餐饮门店的点餐、库存、会员与 AI 营销能力<strong>平台化</strong>，提供统一的门店管理与数据能力。</p>
-      <ul>
-        <li>协调 3 个开发团队完成平台能力设计与研发推进，梳理点餐、库存、会员及标准接口等核心模块，覆盖 <span class="num">800 余家</span>门店。</li>
-        <li>组织资源收缩后，主动承担业务的<strong>售前与商务支撑</strong>：方案编制、成本与收益测算、报价模型设计及客户谈判，推动与区域连锁品牌签署合作协议并推进落地。</li>
-        <li>推进研发、销售与客户之间的需求对齐，明确项目实施边界与报价口径，支持多个垂直场景的方案复用。</li>
-      </ul>
+      <p style="margin-top:10px;">我协调 3 个开发团队，把平台能力从设计推到落地，梳理出点餐、库存、会员和标准接口这些核心模块，覆盖 <span class="num">800 余家</span>门店。</p>
+      <p style="margin-top:10px;">后来组织资源收缩，我主动接下了业务的<strong>售前和商务</strong>：写方案、算成本收益、搭报价模型、跟客户谈判，最后推动与区域连锁品牌签下合作协议并推进落地。</p>
+      <p style="margin-top:10px;">这期间我一直在推进研发、销售和客户之间的需求对齐，把实施边界和报价口径定清楚，让平台能力能在多个垂直场景里复用起来。</p>
       <details class="insight">
         <summary>沉淀与收获</summary>
         <div class="d-body">
@@ -961,11 +1020,9 @@
       </div>
       <div class="c-meta">产研转化 · 复杂数据分析 | 团队约 8 人</div>
       <p class="c-line"><b>项目定位：</b>与高校合作，将供应链研究成果与复杂数据分析需求，转化为面向实际业务的行业数据应用产品。</p>
-      <ul>
-        <li>项目合同规模约 <span class="num">1,500 万元</span>（公司承接约 260 万元）；独自投入约 <span class="num">4 周</span>完成甲方需求摸排与关键问题澄清，推动甲方确认合作、赢得项目机会。</li>
-        <li>将高校专家偏研究导向的业务设想、模型与分析流程，抽象为产品功能、交互逻辑与可实施的研发需求，并在研究表达、业务可用性与实现成本之间完成方案取舍。</li>
-        <li>规划<strong>深度研究报告智能体</strong>（自动检索数据、完成分析、生成研究报告）；设计<strong>智能抽取智能体</strong>（基于实体与字段规则从非结构化文本识别抽取）；推动<strong>字段级数据来源追溯方案</strong>上线，满足复杂计算结果的核验需求，获合作专家与公司管理层采纳。</li>
-      </ul>
+      <p style="margin-top:10px;">这个项目合同规模约 <span class="num">1,500 万元</span>，公司承接约 260 万元。我独自投入约 <span class="num">4 周</span>做甲方需求摸排和关键问题澄清，推动甲方确认合作，为公司赢下这个项目机会。</p>
+      <p style="margin-top:10px;">高校专家的思路偏研究导向，我需要把他们的业务设想、模型和分析流程，<strong>抽象成产品功能、交互逻辑和可实施的研发需求</strong>，在研究表达、业务可用性和实现成本之间反复取舍。</p>
+      <p style="margin-top:10px;">我还规划了<strong>深度研究报告智能体</strong>（自动检索数据、完成分析、生成报告）、<strong>智能抽取智能体</strong>（从非结构化文本里识别抽取），并推动<strong>字段级数据来源追溯</strong>上线，满足复杂计算结果的核验需求——这些方案都得到了合作专家和管理层采纳。</p>
       <details class="insight">
         <summary>沉淀与收获</summary>
         <div class="d-body">
@@ -986,11 +1043,9 @@
       </div>
       <div class="c-meta">服务预约 · 医疗场景（示例）</div>
       <p class="c-line"><b>项目定位：</b>面向医疗场景的服务预约应用，覆盖<strong>号源管理、就诊指引与自然语言查询</strong>。</p>
-      <ul>
-        <li>距交付约 <span class="num">1 个月</span>时临时接手，发现项目整体尚未启动、数据查询功能超出既定预算；第一时间<strong>上报交付风险</strong>，协助销售完成方案与成本收益测算，支撑管理层确定投入范围。</li>
-        <li>设计号源、就诊、查询三条业务工作流：明确澄清追问、动态查询规则及知识库的调用逻辑；就诊指引需输出适用说明、负责科室与建议流程。</li>
-        <li>输出研发实施逻辑与进度排期，协调甲方、合作方及外包研发资源，在约 1 个月内完成号源管理、就诊指引及约定范围内查询功能的开发与验证。</li>
-      </ul>
+      <p style="margin-top:10px;">距交付只剩 <span class="num">1 个月</span>时我临时接手，发现项目整体还没启动，数据查询功能也超了预算。我第一时间<strong>上报交付风险</strong>，协助销售把方案和成本收益算清楚，支撑管理层定下投入范围。</p>
+      <p style="margin-top:10px;">我设计了号源、就诊、查询三条业务工作流，明确了澄清追问、动态查询规则和知识库的调用逻辑——就诊指引要能输出适用说明、负责科室和建议流程。</p>
+      <p style="margin-top:10px;">接着我把研发实施逻辑和进度排期理出来，协调甲方、合作方和外包研发，在约 1 个月里完成了号源管理、就诊指引和约定范围内的查询功能的开发与验证。</p>
       <details class="insight">
         <summary>沉淀与收获</summary>
         <div class="d-body">
@@ -1011,11 +1066,9 @@
       </div>
       <div class="c-meta">在线教育 · 数据运营（示例）</div>
       <p class="c-line"><b>项目定位：</b>面向在线教育业务的数据运营中台，整合学员数据、课程数据与算法能力，支持学习画像、课程推荐与运营分析等场景。</p>
-      <ul>
-        <li>深度参与<strong>学习画像、课程推荐</strong>等算法的应用落地，负责运营分析模块的业务梳理、产品设计、需求拆解及研发协同。</li>
-        <li>负责<strong>学员数据平台</strong>（中台底层能力）的产品设计与开发协调，提供学员标签、数据服务等标准接口，承载并发数据接入与管理；参与标签体系、指标配置及算法服务的能力规划与需求导入。</li>
-        <li>参与项目全生命周期管理及验收，支持<span class="num">百万级</span>学员数据的统一接入与存储，并推动项目能力向通用产品沉淀。</li>
-      </ul>
+      <p style="margin-top:10px;">我深度参与了<strong>学习画像、课程推荐</strong>这些算法的应用落地，负责运营分析模块的业务梳理、产品设计、需求拆解和研发协同。</p>
+      <p style="margin-top:10px;">同时负责<strong>学员数据平台</strong>（中台的底层能力）的产品设计与开发协调，提供学员标签、数据服务等标准接口，承载并发数据接入与管理；也参与了标签体系、指标配置和算法服务的能力规划。</p>
+      <p style="margin-top:10px;">项目全生命周期我都有参与，<span class="num">百万级</span>学员数据的统一接入与存储，也是在那个阶段落地的；项目结束后，我把这些能力整理沉淀回了通用产品。</p>
       <details class="insight">
         <summary>沉淀与收获</summary>
         <div class="d-body">
@@ -1093,6 +1146,15 @@
     <button class="db-play" id="dbPlay" onclick="deckToggle()" aria-label="自动播放"><svg class="ic"><use href="#i-play"/></svg></button>
     <button class="db-next" onclick="deckGo(1)" aria-label="下一页"><svg class="ic"><use href="#i-next"/></svg></button>
     <div class="deck-themes" id="deckThemes"></div>
+  </div>
+
+  <!-- ================= Neon 页尾常驻联系信息 ================= -->
+  <div class="deck-footer">
+    <span class="df-item df-name">明霞</span>
+    <span class="df-sep">·</span>
+    <span class="df-item"><svg class="ic"><use href="#i-phone"/></svg>139-1111-2222</span>
+    <span class="df-sep">·</span>
+    <span class="df-item"><svg class="ic"><use href="#i-mail"/></svg>mingxia.example@mail.com</span>
   </div>
 
   <!-- ================= 简洁版：原始简历文档 ================= -->
