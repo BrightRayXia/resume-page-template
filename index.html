@@ -157,6 +157,10 @@
   .simple-view{display:none;}
   body.mini .content{display:none;}
   body.mini .simple-view{display:block;}
+  /* 手机端：简洁版简历留出舒适的屏幕边距 */
+  body.mini .simple-view{padding:28px 18px 36px;}
+  body.mini .simple-view .entry ul{font-size:15px;line-height:1.7;}
+  body.mini .simple-view .c-line{font-size:15px;line-height:1.7;}
   .simple-view .sv-header{padding:6px 0 2px;}
   .simple-view .sv-header h1{font-size:34px;line-height:1.25;color:var(--ink);}
   .simple-view .sv-role{font-size:16px;font-weight:600;color:var(--ink);margin-top:4px;}
@@ -282,7 +286,7 @@
   /* ============ 打印 ============ */
   @media print{
     @page{size:A4;margin:12mm 13mm;}
-    body{font-size:10.5px;line-height:1.5;background:#fff;}
+    body{font-size:13px;line-height:1.66;background:#fff;}
     .topbar,.rail,.dock,.hero .hero-actions,footer .f-actions,footer .f-note,
     .only-full,details,.extended{display:none !important;}
     main{padding-left:0 !important;}
@@ -295,20 +299,20 @@
     }
 
     /* 简历排版：内容紧凑流动，避免大段空白；标题不孤行 */
-    .simple-view section{padding:0 0 12px;page-break-inside:auto;}
-    .simple-view .sv-header{padding:0 0 10px;}
-    .simple-view .sv-header h1{font-size:21px;line-height:1.2;}
-    .simple-view .sv-role{font-size:12.5px;margin-top:3px;}
-    .simple-view .sv-meta{font-size:10px;margin-top:4px;}
-    .simple-view .section-label{font-size:10.5px;margin:0 0 5px;}
-    .simple-view .entry{padding:7px 0 9px;page-break-inside:auto;}
+    .simple-view section{padding:0 0 16px;page-break-inside:auto;}
+    .simple-view .sv-header{padding:0 0 14px;}
+    .simple-view .sv-header h1{font-size:26px;line-height:1.2;}
+    .simple-view .sv-role{font-size:15px;margin-top:4px;}
+    .simple-view .sv-meta{font-size:11.5px;margin-top:5px;}
+    .simple-view .section-label{font-size:11.5px;margin:0 0 7px;}
+    .simple-view .entry{padding:10px 0 12px;page-break-inside:auto;}
     .simple-view .entry-head{page-break-after:avoid;}
-    .simple-view .entry-head .e-title{font-size:12.5px;}
-    .simple-view .entry-head .e-time{font-size:9.5px;}
-    .simple-view .e-pos{font-size:11px;margin:3px 0 2px;page-break-after:avoid;}
-    .simple-view .entry ul{font-size:10.5px;}
-    .simple-view .entry li{margin-bottom:2px;orphans:3;widows:3;}
-    .simple-view .c-line{font-size:10.5px;margin-top:3px;orphans:3;widows:3;}
+    .simple-view .entry-head .e-title{font-size:15px;}
+    .simple-view .entry-head .e-time{font-size:11.5px;}
+    .simple-view .e-pos{font-size:12.5px;margin:4px 0 2px;page-break-after:avoid;}
+    .simple-view .entry ul{font-size:13px;}
+    .simple-view .entry li{margin-bottom:4px;orphans:3;widows:3;}
+    .simple-view .c-line{font-size:13px;margin-top:4px;orphans:3;widows:3;}
   }
 
   /* ============ 响应式 ============ */
