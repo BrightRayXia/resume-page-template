@@ -323,6 +323,19 @@
   body[data-theme="neon"] .deck-footer .df-sep{color:rgba(148,220,205,.35);}
   body[data-theme="neon"] .deck-footer .df-item{display:inline-flex;align-items:center;gap:6px;}
   body[data-theme="neon"] .deck-footer .ic{width:12px;height:12px;color:#2dd4bf;}
+  body[data-theme="neon"] .deck-footer .df-go{
+    margin-left:10px;padding:5px 14px;border-radius:16px;
+    border:1px solid rgba(45,212,191,.4);
+    background:rgba(45,212,191,.12);
+    color:#2dd4bf;font-size:12px;font-weight:600;font-family:inherit;
+    cursor:pointer;pointer-events:auto;
+    transition:all .15s ease;
+  }
+  body[data-theme="neon"] .deck-footer .df-go:hover{
+    background:linear-gradient(100deg,#2dd4bf,#22d3ee 45%,#fb923c);
+    color:#06121a;border-color:transparent;
+    transform:translateY(-1px);
+  }
   /* 控制条上移让位给页尾信息条 */
   body[data-theme="neon"] .deck-bar{bottom:46px;}
   /* 移动端 neon 回退滚动 */
@@ -370,6 +383,8 @@
   p{color:var(--muted);}
   strong{color:var(--ink);font-weight:600;}
   a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.25);}
+  a, button, .theme-dot, .dock-card, .works-card, .case-nav-item, .contact-card, .rail a, .deck-bar button, summary{cursor:pointer;}
+  button{cursor:pointer;}
   a:hover{border-bottom-color:var(--accent);}
   ul{padding-left:1.2em;color:var(--muted);}
   li{margin-bottom:7px;}
@@ -649,7 +664,24 @@
   }
   .case-nav-item span:last-child{font-size:14px;font-weight:600;color:var(--ink);}
   .case-page{padding-top:8px;}
+  /* ============ 联系页 ============ */
+  .contact-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:22px;}
+  .contact-card{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    padding:20px 14px;border-radius:14px;
+    border:1px solid var(--card-border);
+    background:var(--card-bg);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    text-decoration:none;border-bottom:1px solid var(--card-border);
+    transition:all .15s ease;
+    cursor:pointer;
+  }
+  .contact-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 24px rgba(var(--accent-rgb),.15);}
+  .contact-card .cci{width:22px;height:22px;color:var(--accent);}
+  .contact-card .cc-label{font-size:11px;color:var(--faint);letter-spacing:.1em;}
+  .contact-card .cc-value{font-size:14px;font-weight:600;color:var(--ink);}
   @media (max-width:720px){
+    .contact-cards{grid-template-columns:1fr;}
     .case-nav{grid-template-columns:1fr;}
   }
 
@@ -935,6 +967,14 @@
     <p>你好，我是明霞。身边的同事叫我<span class="nickname">「万事通」</span>——不是因为我什么都会，而是不管大家带着什么事来找我，工作的事、生活的事、各种奇奇怪怪的事，我总能接住，给出一个让人<strong>眼前一亮的思路或办法</strong>。这个称呼是我最珍视的评价，因为产品经理的工作本质，就是在别人卡住的地方，把问题拆开、把方案做出来。</p>
   </div>
 
+  <!-- ================= 2.5 我是谁（人设自述） ================= -->
+  <section id="whoami">
+    <div class="section-label"><svg class="ic sl-ic"><use href="#i-heart"/></svg>我是谁 · About Me</div>
+    <p>先说说我这个人。身边人叫我<strong>「万事通」</strong>——不是因为我什么都懂，而是不管谁带着什么事来找我，工作的事、生活的事、各种奇奇怪怪的事，我总能接住，给出一个<strong>能落地的思路或办法</strong>。</p>
+    <p style="margin-top:14px;">我做产品经理快 7 年了，最大的特点是<strong>越乱我越稳</strong>。需求模糊、各方打架、资源不够——这些别人头疼的场面，我反而觉得有得做，能把一团乱麻理成几条清晰的路。</p>
+    <p style="margin-top:14px;">我也很愿意动手。这两年流行 vibe coding，我就真的一边学一边把想法做成能用的东西——我始终相信，产品经理不能只会说，得能把自己相信的东西做出来给人看。</p>
+  </section>
+
   <!-- ================= 3. 专业能力概览 ================= -->
   <section id="capability">
     <div class="section-label"><svg class="ic sl-ic"><use href="#i-zap"/></svg>专业能力概览 · Capabilities</div>
@@ -1109,6 +1149,29 @@
     </div>
   </section>
 
+  <!-- ================= 9.5 联系我（neon 最后一页） ================= -->
+  <section id="contact-page" class="contact-page">
+    <div class="section-label"><svg class="ic sl-ic"><use href="#i-send"/></svg>联系我 · Contact</div>
+    <p style="font-size:17px;line-height:1.8;color:var(--ink);font-weight:600;">如果你也有复杂的问题，欢迎拿来一起拆开看看。</p>
+    <div class="contact-cards">
+      <a class="contact-card" href="tel:13911112222">
+        <svg class="ic cci"><use href="#i-phone"/></svg>
+        <span class="cc-label">电话</span>
+        <span class="cc-value">139-1111-2222</span>
+      </a>
+      <a class="contact-card" href="mailto:mingxia.example@mail.com">
+        <svg class="ic cci"><use href="#i-mail"/></svg>
+        <span class="cc-label">邮箱</span>
+        <span class="cc-value">mingxia.example@mail.com</span>
+      </a>
+      <div class="contact-card">
+        <svg class="ic cci"><use href="#i-pin"/></svg>
+        <span class="cc-label">城市</span>
+        <span class="cc-value">杭州</span>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= 页脚 ================= -->
   <footer id="contact">
     <div class="f-cta">欢迎交流：聊聊产品、聊聊 AI 应用落地；如果有复杂的问题，欢迎拿来一起拆开看看。</div>
@@ -1158,6 +1221,7 @@
     <span class="df-item"><svg class="ic"><use href="#i-phone"/></svg>139-1111-2222</span>
     <span class="df-sep">·</span>
     <span class="df-item"><svg class="ic"><use href="#i-mail"/></svg>mingxia.example@mail.com</span>
+    <button class="df-go" onclick="deck.jump(deck.total-1)" aria-label="跳转到联系页">联系我 →</button>
   </div>
 
   <!-- ================= 简洁版：原始简历文档 ================= -->
