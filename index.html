@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你好，我是王宇 ·「产品百事通」| 高级产品经理</title>
+<meta name="description" content="王宇的个人介绍页（示例模板）：6 年 B/G 端产品与复杂项目交付经验，覆盖智慧园区、零售数字化、行业数据应用与 AI 应用。">
+<style>
+  /* ============ 基础 ============ */
+  :root{
+    --ink:#1c1f24;
+    --muted:#5c6570;
+    --faint:#8a939e;
+    --line:#e6e8ec;
+    --accent:#1f4e8c;
+    --accent-soft:#eef3fa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC","Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);
+    line-height:1.75;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  main{padding:0;}
+  .stage{max-width:900px;margin:0 auto;}
+  .content{padding:0 20px 96px;}
+  section{padding:44px 0 8px;scroll-margin-top:72px;}
+  .section-label{
+    font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:18px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .section-label::after{content:"";flex:1;height:1px;background:var(--line);}
+  p{color:var(--muted);}
+  strong{color:var(--ink);font-weight:600;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(31,78,140,.25);}
+  a:hover{border-bottom-color:var(--accent);}
+  ul{padding-left:1.2em;color:var(--muted);}
+  li{margin-bottom:7px;}
+  .num{color:var(--accent);font-weight:700;}
+  .sub-label{font-size:14px;font-weight:700;color:var(--ink);margin:20px 0 8px;}
+  .sub-label:first-child{margin-top:0;}
+
+  /* ============ 顶部工具栏 ============ */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:760px;margin:0 auto;
+    display:flex;align-items:center;gap:16px;
+    padding:10px 28px;
+  }
+  .topbar-name{font-weight:700;font-size:15px;color:var(--ink);border:none;}
+  .topbar nav{flex:1;display:flex;gap:14px;flex-wrap:wrap;}
+  .topbar nav a{font-size:13px;color:var(--muted);border:none;}
+  .topbar nav a:hover{color:var(--accent);}
+  .tool-btn{
+    font-family:inherit;font-size:13px;
+    padding:6px 14px;border-radius:6px;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--muted);
+    transition:all .15s ease;white-space:nowrap;
+  }
+  .tool-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .tool-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+  .tool-btn.primary:hover{background:#1a4280;color:#fff;}
+  .actions{display:flex;gap:8px;}
+
+  /* ============ 三栏布局：横线轨 / 内容 / 悬浮卡片（桌面端） ============ */
+  .rail{display:none;}
+  .dock{display:none;}
+  @media (min-width:901px){
+    /* 三栏网格：左右两栏天然留空，导航与卡片不遮挡内容；宽屏时中间撑满但两侧空隙保留 */
+    .stage{
+      display:grid;
+      grid-template-columns:72px minmax(0,1fr) 150px;
+      max-width:1142px;
+      margin:0 auto;
+    }
+    body.wide .stage{max-width:none;}
+    body.mini .stage{grid-template-columns:0 minmax(0,1fr) 150px;}
+
+    /* 左侧横线轨：相对屏幕垂直居中，随宽屏/居中切换贴向内容左侧 */
+    .rail{
+      position:fixed;
+      top:50%;transform:translateY(-50%);
+      left:max(8px, calc((100vw - 1142px)/2 + 8px));
+      display:flex;flex-direction:column;gap:8px;
+      width:56px;padding:4px 0 20px;
+      z-index:60;
+    }
+    body.wide .rail{left:8px;}
+    .rail a{
+      display:flex;align-items:center;gap:10px;
+      position:relative;padding:2px 0 2px 16px;white-space:nowrap;border:none;
+    }
+    .rail a i{
+      flex:none;display:block;width:16px;height:2px;border-radius:1px;
+      background:#c9d0d9;transform-origin:center left;
+      transition:background .15s ease;
+    }
+    .rail a span{
+      position:absolute;left:16px;top:50%;
+      font-size:12.5px;line-height:1;color:var(--accent);font-weight:600;white-space:nowrap;
+      opacity:0;transform:translateY(-50%) translateX(-6px);
+      transition:opacity .2s ease .3s, transform .2s ease .3s;
+    }
+    /* 悬浮：横线向右侧拉长 → 淡出变成文字，整项上下跳动 */
+    .rail a:hover{animation:hop .5s ease;}
+    .rail a:hover i{background:var(--accent);animation:knob .45s ease forwards;}
+    .rail a:hover span{opacity:1;transform:translateY(-50%) translateX(0);}
+    .rail a.active i{background:var(--accent);width:22px;height:3px;}
+    @keyframes knob{
+      0%{transform:scaleX(1);opacity:1;}
+      100%{transform:scaleX(3.2);opacity:0;}
+    }
+    @keyframes hop{
+      0%,100%{transform:translateY(0);}
+      40%{transform:translateY(-5px);}
+      75%{transform:translateY(-1px);}
+    }
+    .topbar{display:none;}
+
+    .content{grid-column:2;grid-row:1;padding:0 48px 96px;}
+
+    /* 右上角悬浮操作卡片 */
+    .dock{
+      grid-column:3;grid-row:1;
+      position:sticky;top:20px;align-self:start;justify-self:end;
+      display:flex;flex-direction:column;gap:8px;
+      z-index:70;
+    }
+    .dock .dock-card{
+      width:118px;height:38px;border-radius:10px;
+      border:1px solid var(--line);background:#fff;
+      display:flex;align-items:center;justify-content:center;gap:7px;
+      font-family:inherit;font-size:13px;color:var(--muted);cursor:pointer;
+      box-shadow:0 2px 10px rgba(28,31,36,.05);
+      transition:all .15s ease;
+    }
+    .dock .dock-card:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+    .dock .dock-card.dock-primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+    .dock .dock-card.dock-primary:hover{background:#1a4280;color:#fff;}
+    .dock .dock-card.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+
+    /* 简洁版简历卡片：占中间栏 */
+    .simple-view{grid-column:2;grid-row:1;align-self:start;}
+    body.mini .rail{display:none;}
+  }
+
+  /* ============ 简洁版（原始简历文档） ============ */
+  .simple-view{display:none;}
+  body.mini .content{display:none;}
+  body.mini .simple-view{display:block;}
+  .simple-view .sv-header{padding:6px 0 2px;}
+  .simple-view .sv-header h1{font-size:34px;line-height:1.25;color:var(--ink);}
+  .simple-view .sv-role{font-size:16px;font-weight:600;color:var(--ink);margin-top:4px;}
+  .simple-view .sv-meta{font-size:13.5px;color:var(--faint);margin-top:6px;}
+  .simple-view section{padding:22px 0 2px;}
+  .simple-view .section-label{margin-bottom:12px;}
+  .simple-view .entry{padding:14px 0 16px;}
+  .simple-view .entry ul{font-size:14px;}
+  .simple-view .c-line{font-size:14px;}
+  @media (min-width:901px){
+    body.mini .simple-view{
+      max-width:880px;margin:0 auto;
+      background:#fff;border:1px solid var(--line);border-radius:12px;
+      padding:52px 60px 60px;
+      box-shadow:0 4px 24px rgba(28,31,36,.06);
+    }
+    body.wide .simple-view{max-width:none;}
+  }
+
+  /* ============ Hero ============ */
+  .hero{padding:72px 0 40px;text-align:center;}
+  .hero-eyebrow{font-size:14px;color:var(--faint);letter-spacing:.12em;margin-bottom:6px;}
+  .hero h1{font-size:44px;line-height:1.2;font-weight:700;}
+  .hero .role{margin-top:10px;font-size:19px;color:var(--ink);font-weight:600;}
+  .hero .role .sep{color:var(--accent);margin:0 6px;}
+  .hero .tags{margin-top:12px;font-size:14px;color:var(--muted);letter-spacing:.02em;}
+  .hero .intent{margin-top:18px;font-size:14px;color:var(--accent);font-weight:600;}
+  .hero .contact-line{margin-top:10px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;}
+  .hero .hero-actions{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .hero .hero-actions .tool-btn{padding:10px 20px;font-size:14px;}
+
+  /* ============ 开场白（卡片） ============ */
+  .opening{
+    background:#f7f8fa;border:1px solid var(--line);border-radius:12px;
+    padding:20px 26px;margin:4px 0 6px;
+  }
+  .opening p{
+    font-size:15px;line-height:1.8;color:var(--muted);
+    font-weight:400;letter-spacing:.005em;
+  }
+  .opening p .nickname{color:var(--accent);font-weight:600;}
+
+  /* ============ 经历 / 案例 ============ */
+  .entry{padding:20px 0 22px;border-top:1px solid var(--line);}
+  .entry:first-child{border-top:none;}
+  .entry-head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;}
+  .entry-head .e-title{font-size:17px;font-weight:700;color:var(--ink);}
+  .entry-head .e-time{font-size:13px;color:var(--faint);white-space:nowrap;}
+  .entry-head .e-role{font-size:14px;color:var(--accent);font-weight:600;margin-top:2px;}
+  .entry .e-pos{font-size:14px;color:var(--muted);margin:8px 0 4px;}
+  .entry ul{margin-top:4px;}
+  .c-meta{font-size:13px;color:var(--faint);margin-top:4px;}
+  .c-line{font-size:14px;color:var(--muted);margin-top:8px;}
+  .c-line b{color:var(--ink);font-weight:600;}
+  .c-section-label{font-size:13px;font-weight:700;color:var(--ink);margin-top:12px;margin-bottom:2px;}
+  details{margin-top:14px;border:1px solid var(--line);border-radius:8px;background:#fafbfc;}
+  details summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:13.5px;color:var(--accent);font-weight:600;user-select:none;}
+  details summary::-webkit-details-marker{display:none;}
+  details summary::before{content:"＋ ";font-size:12px;}
+  details[open] summary::before{content:"－ ";}
+  details .d-body{padding:2px 16px 14px;}
+  details .d-body ul{font-size:14px;}
+
+  /* 沉淀与收获（心得）折叠样式 */
+  details.insight{margin-top:16px;border:none;background:none;}
+  details.insight summary{
+    display:inline-flex;align-items:center;gap:6px;
+    list-style:none;cursor:pointer;user-select:none;
+    font-size:13px;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);border:1px solid rgba(31,78,140,.2);
+    border-radius:20px;padding:6px 14px;
+    transition:background .15s ease;
+  }
+  details.insight summary::-webkit-details-marker{display:none;}
+  details.insight summary::before{content:"💡 ";}
+  details.insight summary:hover{background:#e3ecf7;}
+  details.insight[open] summary{background:#e3ecf7;}
+  details.insight .d-body{
+    margin-top:12px;padding:16px 20px;
+    background:#f7f8fa;border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;
+  }
+  details.insight .d-body p{font-size:14px;color:var(--muted);line-height:1.85;}
+
+  /* ============ 能力分组 ============ */
+  .skill-group{margin-bottom:18px;}
+  .skill-group .sg-name{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+  .skill-group .sg-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .skill-group .tag{font-size:13px;color:var(--muted);background:#f4f5f7;border:1px solid var(--line);border-radius:20px;padding:3px 12px;}
+
+  /* ============ 引用 / 提示框 ============ */
+  .quote{margin:16px 0;padding:16px 20px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0;}
+  .quote blockquote{font-size:15px;color:var(--ink);line-height:1.8;}
+  .quote blockquote::before{content:"“";color:var(--accent);font-size:22px;}
+  .quote blockquote::after{content:"”";color:var(--accent);font-size:22px;}
+  .quote figcaption{margin-top:8px;font-size:13px;color:var(--faint);}
+  .quote .placeholder-note{color:#b4541c;font-size:13px;margin-top:4px;}
+  .note-box{
+    background:#f7f8fa;border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:8px;padding:12px 16px;margin-top:14px;
+    font-size:14px;color:var(--muted);
+  }
+  .callout{
+    background:var(--accent-soft);border:1px solid rgba(31,78,140,.25);
+    border-radius:10px;padding:22px 24px;
+  }
+  .callout p{margin-bottom:10px;}
+  .callout p:last-child{margin-bottom:0;}
+
+  /* ============ 页脚 ============ */
+  footer{border-top:1px solid var(--line);margin-top:56px;padding-top:28px;text-align:center;}
+  footer .f-cta{font-size:16px;font-weight:700;color:var(--ink);}
+  footer .f-contact{margin-top:12px;font-size:14px;color:var(--muted);display:flex;justify-content:center;flex-wrap:wrap;gap:6px 20px;}
+  footer .f-actions{margin-top:20px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+  footer .f-note{margin-top:22px;font-size:12px;color:var(--faint);}
+
+  /* ============ 精简版控制 ============ */
+  .only-mini{display:none;}
+  body.mini .extended,
+  body.mini .only-full{display:none;}
+  body.mini .only-mini{display:block;}
+
+  /* ============ 打印 ============ */
+  @media print{
+    @page{size:A4;margin:12mm 13mm;}
+    body{font-size:10.5px;line-height:1.5;background:#fff;}
+    .topbar,.rail,.dock,.hero .hero-actions,footer .f-actions,footer .f-note,
+    .only-full,details,.extended{display:none !important;}
+    main{padding-left:0 !important;}
+    .stage{display:block !important;max-width:100% !important;margin:0 !important;padding:0 !important;}
+    .content{display:none !important;}
+    .simple-view{
+      display:block !important;
+      max-width:100% !important;margin:0 !important;padding:0 !important;
+      border:none !important;box-shadow:none !important;border-radius:0 !important;
+    }
+
+    /* 简历排版：内容紧凑流动，避免大段空白；标题不孤行 */
+    .simple-view section{padding:0 0 12px;page-break-inside:auto;}
+    .simple-view .sv-header{padding:0 0 10px;}
+    .simple-view .sv-header h1{font-size:21px;line-height:1.2;}
+    .simple-view .sv-role{font-size:12.5px;margin-top:3px;}
+    .simple-view .sv-meta{font-size:10px;margin-top:4px;}
+    .simple-view .section-label{font-size:10.5px;margin:0 0 5px;}
+    .simple-view .entry{padding:7px 0 9px;page-break-inside:auto;}
+    .simple-view .entry-head{page-break-after:avoid;}
+    .simple-view .entry-head .e-title{font-size:12.5px;}
+    .simple-view .entry-head .e-time{font-size:9.5px;}
+    .simple-view .e-pos{font-size:11px;margin:3px 0 2px;page-break-after:avoid;}
+    .simple-view .entry ul{font-size:10.5px;}
+    .simple-view .entry li{margin-bottom:2px;orphans:3;widows:3;}
+    .simple-view .c-line{font-size:10.5px;margin-top:3px;orphans:3;widows:3;}
+  }
+
+  /* ============ 响应式 ============ */
+  @media (max-width:640px){
+    .content{padding:0 18px 64px;}
+    .topbar-inner{padding:10px 18px;gap:10px;}
+    .topbar nav{display:none;}
+    .hero{padding:48px 0 28px;}
+    .hero h1{font-size:34px;}
+    .hero .role{font-size:16px;}
+    .entry-head{flex-direction:column;gap:2px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= 顶部工具栏（移动端） ================= -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-name" href="#top">王宇</a>
+    <div class="actions">
+      <button class="tool-btn mode-btn" onclick="toggleMode()">查看简洁版</button>
+      <button class="tool-btn primary" onclick="window.print()">下载 PDF 简历</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="stage">
+
+  <!-- ================= 左侧横线轨导航（桌面端） ================= -->
+  <aside class="rail" id="rail">
+    <a href="#capability" class="active"><i></i><span>能力</span></a>
+    <a href="#soft"><i></i><span>特质</span></a>
+    <a href="#experience"><i></i><span>经历</span></a>
+    <a href="#cases"><i></i><span>案例</span></a>
+    <a href="#opportunity"><i></i><span>新机会</span></a>
+    <a href="#collaborate"><i></i><span>我的风格</span></a>
+    <a href="#education"><i></i><span>教育</span></a>
+    <a href="#contact" class="contact"><i></i><span>联系</span></a>
+  </aside>
+
+  <div class="content">
+
+  <!-- ================= 1. Hero ================= -->
+  <section class="hero" id="hero">
+    <p class="hero-eyebrow">你好，我是</p>
+    <h1>王宇</h1>
+    <p class="role">高级产品经理<span class="sep">·</span>AI 应用与复杂业务解决方案</p>
+    <p class="tags">6 年 B/G 端产品与复杂项目交付 · 智慧园区 · 零售数字化 · 行业数据应用 · AI 应用</p>
+    <p class="intent">求职意向：AI 应用产品经理 / B 端产品经理 / 政企数字化产品经理</p>
+    <p class="contact-line">
+      <span>📱 138-0000-0000</span>
+      <span>✉️ <a href="mailto:wangyu.example@mail.com">wangyu.example@mail.com</a></span>
+      <span>📍 上海</span>
+    </p>
+  </section>
+
+  <!-- ================= 2. 开场白 ================= -->
+  <div class="opening">
+    <p>你好，我是王宇。身边的同事叫我<span class="nickname">「产品百事通」</span>——不是因为我什么都会，而是不管大家带着什么事来找我，工作的事、生活的事、各种奇奇怪怪的事，我总能接住，给出一个让人<strong>眼前一亮的思路或办法</strong>。这个称呼是我最珍视的评价，因为产品经理的工作本质，就是在别人卡住的地方，把问题拆开、把方案做出来。</p>
+  </div>
+
+  <!-- ================= 3. 专业能力概览 ================= -->
+  <section id="capability">
+    <div class="section-label">专业能力概览 · Capabilities</div>
+    <p>6 年 B/G 端产品与复杂项目交付经验，覆盖智慧园区、零售数字化、行业数据应用及 AI 应用等场景，具备<strong>产品规划、项目交付协调和商务测算</strong>的复合经验。</p>
+    <p style="margin-top:12px;">擅长在需求模糊、多方诉求冲突和资源受限的环境中<strong>厘清业务问题</strong>，将非标准需求转化为<strong>可报价、可研发、可交付</strong>的产品与解决方案。</p>
+    <p style="margin-top:12px;">具备产品全链路推进能力，能够完成需求调研、业务建模、功能与交互设计、研发协同、实施边界梳理及客户沟通，并<strong>推动关键决策落地</strong>。</p>
+    <p style="margin-top:12px;">持续实践大模型与 Agent 的产品化应用，将 AI 用于需求分析、方案推演、信息整理和原型验证；具备从<strong>业务流程、数据输入输出及人工校验</strong>出发设计 AI 应用的能力。</p>
+  </section>
+
+  <!-- ================= 4. 个人特质 ================= -->
+  <section id="soft">
+    <div class="section-label">个人特质 · Character</div>
+    <ul>
+      <li>在信息不完整、诉求相互冲突的复杂环境中，依然能保持结构化判断，把模糊问题收敛为清晰、可执行的决策路径。</li>
+      <li>能够同时用客户的语言理解业务、用研发的语言定义需求，让需求在两端之间被准确、无损地传递。</li>
+      <li>以 owner 心态对最终结果负责，从问题定义到交付验收全程兜底，主动补齐协作中的空白地带。</li>
+      <li>具备跳出研发视角的商业思维，能从市场与客户的角度审视产品决策，并有商业推广的落地经历，理解从产品到市场的完整链路。</li>
+      <li>横跨智慧园区、零售、制造业、行业数据应用等多个行业，能快速学习新行业的业务逻辑，并快速切入。</li>
+      <li>将 AI 融入产品工作的每个环节，并实践 vibe coding，亲自把产品想法迭代为可运行的应用，形成持续演进的方法论。</li>
+    </ul>
+  </section>
+
+  <!-- ================= 5. 工作经验 ================= -->
+  <section id="experience">
+    <div class="section-label">工作经验 · Experience</div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <div>
+          <div class="e-title">智联数科科技有限公司（示例）</div>
+          <div class="e-role">高级产品经理 / 核心产品负责人</div>
+        </div>
+        <div class="e-time">2019.08 — 至今</div>
+      </div>
+      <div class="e-pos"><strong>2021.01 — 至今 · 高级产品经理 / 核心产品负责人</strong></div>
+      <ul>
+        <li>负责智慧园区、行业数据应用及 AI 应用等产品线的<strong>需求分析、方案设计、研发协同、售前支持与交付推进</strong></li>
+        <li>2023 年起承担产品团队管理与协调：负责产品新人任务分配、培养与方案把关；2023 年底兼任测试团队管理，统筹两地 <strong>10 人</strong>日常协作</li>
+        <li>2024 年组织调整后，作为<strong>研发体系唯一保留的产品经理</strong>，持续推进研发、销售、客户与合作方之间的需求对齐、售前支持与关键问题协调</li>
+      </ul>
+      <div class="e-pos"><strong>2019.08 — 2020.12 · 项目交付 / 总部运营轮岗</strong></div>
+      <ul>
+        <li>参与一线项目交付与管理工作；在总部运营部门参与组织效能相关工作，形成项目落地与组织协同的复合视角</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 6. 产品案例 ================= -->
+  <section id="cases">
+    <div class="section-label">产品案例 · Case Studies</div>
+    <p style="font-size:14px;color:var(--faint);margin-bottom:14px;">每个项目按「定位 → 关键动作与结果」完整展示；点开「💡 沉淀与收获」可看每个项目沉淀下来的方法论。</p>
+
+    <div class="entry case">
+      <div class="entry-head">
+        <div>
+          <div class="e-title">智慧园区 AIoT 管理平台</div>
+          <div class="e-role">产品负责人</div>
+        </div>
+        <div class="e-time">2022.04 — 2025.05</div>
+      </div>
+      <div class="c-meta">智慧园区 · 设备管理 | 协调 3 个开发团队</div>
+      <p class="c-line"><b>项目定位：</b>将园区视频、物联网设备接入与 AI 算法能力<strong>平台化</strong>，面向智慧园区、智慧楼宇等场景提供统一设备接入、管理及算法分发能力。</p>
+      <ul>
+        <li>协调 3 个开发团队完成平台能力设计与研发推进，梳理设备接入、IoT 管理、算法分发及标准接口等核心模块，累计支持 <span class="num">2 万余台</span>设备接入。</li>
+        <li>组织资源收缩后，主动承担业务的<strong>售前与商务支撑</strong>：方案编制、成本与收益测算、报价模型设计及客户谈判，推动与区域运营商签署合作协议并推进落地。</li>
+        <li>推进研发、销售与客户之间的需求对齐，明确项目实施边界与报价口径，支持多个垂直场景的方案复用。</li>
+      </ul>
+      <details class="insight">
+        <summary>沉淀与收获</summary>
+        <div class="d-body">
+          <p><strong>关于中台：</strong>平台化能力的价值不在当下交付，而在后续复用——前期沉淀的标准接口与能力模块，在组织资源收缩时反而成了稀缺资产，为方案复用与商务推进提供底气。</p>
+          <p style="margin-top:10px;"><strong>关于谈判：</strong>组织收缩意味着一个人要做多件事，需要在研发、产品、商务之间切换不同的视野与做事逻辑。当谈判推进到一定阶段，问题往往已不在产品功能本身，而在合作模式——成本怎么测算、边界怎么界定、收益怎么分配，这些测算与策略，才是谈判桌上真正需要拿下的东西。</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="entry case">
+      <div class="entry-head">
+        <div>
+          <div class="e-title">制造业质量数据分析平台</div>
+          <div class="e-role">产品负责人（产研转化）· 高校产研合作</div>
+        </div>
+        <div class="e-time">2025.08 — 至今</div>
+      </div>
+      <div class="c-meta">产研转化 · 复杂数据分析 | 团队约 8 人</div>
+      <p class="c-line"><b>项目定位：</b>与高校合作，将研究成果与复杂数据分析需求，转化为面向实际业务的行业数据应用产品。</p>
+      <ul>
+        <li>项目合同规模约 <span class="num">2,000 万元</span>（公司承接约 300 万元）；独自投入约 <span class="num">3 周</span>完成甲方需求摸排与关键问题澄清，推动甲方确认合作、赢得项目机会。</li>
+        <li>将高校专家偏研究导向的业务设想、模型与分析流程，抽象为产品功能、交互逻辑与可实施的研发需求，并在研究表达、业务可用性与实现成本之间完成方案取舍。</li>
+        <li>规划<strong>深度研究报告智能体</strong>（自动检索数据、完成分析、生成研究报告）；设计<strong>智能抽取智能体</strong>（基于实体与字段规则从非结构化文本识别抽取）；推动<strong>字段级数据来源追溯方案</strong>上线，满足复杂计算结果的核验需求，获合作专家与公司管理层采纳。</li>
+      </ul>
+      <details class="insight">
+        <summary>沉淀与收获</summary>
+        <div class="d-body">
+          <p>这个项目的关键启发：拿下它的前提是快速学习并深入专家的领域——虽然达不到专家水平，但足以理解专家的思路，让对方愿意把想法讲给我听。产研转化的核心，是站在专家的角度看问题：真正看到他们的需求与关键点，设计才有落点。同时也要看到，通用数据平台与特定行业的数据应用之间存在真实差距——方案要回到具体需求去设计，而不是看大家都这么做；最贵的不一定是最好的，通用的也不一定是好用的。研究表达、业务可用性与实现成本之间的取舍，不是妥协，而是让每一方都找到自己的位置。</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="entry case">
+      <div class="entry-head">
+        <div>
+          <div class="e-title">某市政务智能问答应用</div>
+          <div class="e-role">产品负责人（交付统筹）</div>
+        </div>
+        <div class="e-time">2025.07 — 2025.08</div>
+      </div>
+      <div class="c-meta">LLM 工作流应用 · 政务场景（示例）</div>
+      <p class="c-line"><b>项目定位：</b>面向政务场景的 LLM 工作流应用，覆盖<strong>公文辅助写作、事项办理指引与自然语言数据查询</strong>。</p>
+      <ul>
+        <li>距交付约 <span class="num">1 个月</span>时临时接手，发现项目整体尚未启动、数据查询功能超出既定预算；第一时间<strong>上报交付风险</strong>，协助销售完成方案与成本收益测算，支撑管理层确定投入范围。</li>
+        <li>设计公文、事项办理、数据查询三条 <strong>LLM 工作流</strong>：明确澄清追问、动态 Prompt 及知识库的调用逻辑；办理结果需输出适用依据、牵头部门与建议流程。</li>
+        <li>输出研发实施逻辑与进度排期，协调甲方、合作方及外包研发资源，在约 1 个月内完成公文写作、事项办理及约定范围内数据查询功能的开发与验证。</li>
+      </ul>
+      <details class="insight">
+        <summary>沉淀与收获</summary>
+        <div class="d-body">
+          <p>这个项目的启发：极限交付的关键在于先把需求理清楚，给开发清晰的思路与方案，开发才能快速启动、避免内耗；同时要把需求中的隐性问题提前暴露并给出应对方案，让管理层及时了解并决策。</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="entry case">
+      <div class="entry-head">
+        <div>
+          <div class="e-title">零售行业会员中台</div>
+          <div class="e-role">产品经理</div>
+        </div>
+        <div class="e-time">2021.07 — 2022.01</div>
+      </div>
+      <div class="c-meta">零售业务 · 数据分析 · 营销（示例）</div>
+      <p class="c-line"><b>项目定位：</b>面向零售业务的数据分析与营销中台，整合会员数据、交易数据与算法能力，支持用户画像、精准营销与运营分析等场景。</p>
+      <ul>
+        <li>深度参与<strong>用户画像、智能推荐</strong>等算法的应用落地，负责营销分析模块的业务梳理、产品设计、需求拆解及研发协同。</li>
+        <li>负责<strong>会员数据平台</strong>（中台底层能力）的产品设计与开发协调，提供会员标签、数据服务等标准接口，承载并发数据接入与管理；参与标签体系、指标配置及算法服务的能力规划与需求导入。</li>
+        <li>参与项目全生命周期管理及验收，支持<span class="num">百万级</span>会员数据的统一接入与存储，并推动项目能力向通用产品沉淀。</li>
+      </ul>
+      <details class="insight">
+        <summary>沉淀与收获</summary>
+        <div class="d-body">
+          <p>这个项目的收获：在这个项目中，真正理解了中台产品的定义与"通用性"的含义——平台不是功能的堆叠，而是抽象出可复用的能力边界。另一个体会是算法的场景化应用：同一个算法放进不同的业务场景，能做出不一样的价值与体验，差异取决于对场景的理解与设计。</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= 7. 为什么看新机会 ================= -->
+  <section id="opportunity" class="only-full">
+    <div class="section-label">为什么看新机会 · Why Now</div>
+    <div class="callout">
+      <p>在现公司近 <strong>7 年</strong>，从项目交付、产品设计到售前与跨团队协调，承担过比较完整的职责，积累了智慧园区、行业数据应用等项目的落地经验。</p>
+      <p>近两年公司处于<strong>业务与研发组织收缩阶段</strong>，产品岗位能覆盖的边界越来越偏向项目维持与交付保障，AI 应用方向的持续投入与成长空间相对有限。</p>
+      <p>下一阶段，我希望加入一个<strong>对 AI 应用有持续业务投入的团队</strong>，把复杂 B/G 端场景、需求抽象、方案落地与 AI 工作流设计的经验，投入到更长期的产品建设中——这是我主动看新机会的主要原因。</p>
+    </div>
+  </section>
+
+  <!-- ================= 8. 我的风格 ================= -->
+  <section id="collaborate" class="only-full">
+    <div class="section-label">我的风格 · My Style</div>
+    <p>跟我一起干活，不用太拘谨。有问题直接说就行，说不定我正好有些思路，咱们可以一起琢磨。有不同想法或者觉得哪里不对，直接讲出来就好，我这个人听劝，想法也转得快——你的观点我吸收进来，和自己的想法合到一起，方案往往更好。如果已经有方案，也把背景和考虑讲给我听，我执行起来能更贴合你的预期。交给我办的事，我会放在心上，把结果做扎实。</p>
+  </section>
+
+  <!-- ================= 9. 教育背景 ================= -->
+  <section id="education">
+    <div class="section-label">教育背景 · Education</div>
+    <div class="entry">
+      <div class="entry-head">
+        <div class="e-title">示例大学</div>
+        <div class="e-time">2015.09 — 2019.07</div>
+      </div>
+      <div class="e-pos">计算机科学与技术 · 本科</div>
+    </div>
+  </section>
+
+  <!-- ================= 页脚 ================= -->
+  <footer id="contact">
+    <div class="f-cta">欢迎交流：聊聊产品、聊聊 AI 应用落地；如果有复杂的问题，欢迎拿来一起拆开看看。</div>
+    <div class="f-contact">
+      <span>📱 138-0000-0000</span>
+      <span>✉️ <a href="mailto:wangyu.example@mail.com">wangyu.example@mail.com</a></span>
+      <span>📍 上海</span>
+    </div>
+    <div class="f-actions">
+      <button class="tool-btn primary" onclick="window.print()">📄 下载 PDF 简历</button>
+      <button class="tool-btn" onclick="location.href='mailto:wangyu.example@mail.com?subject=关于你的产品经理介绍'">✉️ 邮件联系</button>
+    </div>
+    <p class="f-note">王宇 · 个人介绍页（示例模板）· 单文件 HTML，可分享可打印</p>
+  </footer>
+  </div>
+
+  <!-- ================= 右上角悬浮操作卡片（桌面端） ================= -->
+  <div class="dock">
+    <button class="dock-card mode-btn" onclick="toggleMode()">📑<span>简洁版</span></button>
+    <button class="dock-card" id="widthBtn" onclick="toggleWidth()">⤢<span>宽屏</span></button>
+    <button class="dock-card dock-primary" onclick="window.print()">📄<span>下载 PDF</span></button>
+  </div>
+
+  <!-- ================= 简洁版：原始简历文档 ================= -->
+  <div class="simple-view" id="simple">
+    <header class="sv-header">
+      <h1>王宇</h1>
+      <p class="sv-role">高级产品经理｜AI应用与复杂业务解决方案</p>
+      <p class="sv-meta">30岁｜中共党员｜138-0000-0000｜wangyu.example@mail.com</p>
+    </header>
+
+    <section>
+      <div class="section-label">个人概述</div>
+      <ul>
+        <li>6年B/G端产品与复杂项目交付经验，覆盖智慧园区、零售数字化、行业数据应用及AI应用场景，具备产品规划、项目交付协调和商务测算的复合经验。</li>
+        <li>擅长在需求模糊、多方诉求冲突和资源受限的环境中厘清业务问题，将非标准需求转化为可报价、可研发、可交付的产品与解决方案。</li>
+        <li>具备产品全链路推进能力，能够完成需求调研、业务建模、功能与交互设计、研发协同、实施边界梳理及客户沟通，并推动关键决策落地。</li>
+        <li>持续实践大模型与Agent的产品化应用，将AI用于需求分析、方案推演、信息整理和原型验证；具备从业务流程、数据输入输出及人工校验出发设计AI应用的能力。</li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="section-label">工作经历</div>
+      <div class="entry">
+        <div class="entry-head">
+          <div class="e-title">智联数科科技有限公司（示例）</div>
+          <div class="e-time">2019.08 - 至今</div>
+        </div>
+        <div class="e-pos"><strong>项目交付与总部运营轮岗</strong>｜2019.08 - 2020.12</div>
+        <ul>
+          <li>参与一线项目交付与管理，并在总部运营部门参与组织效能相关工作，形成项目落地与组织协同视角。</li>
+        </ul>
+        <div class="e-pos"><strong>高级产品经理 / 核心产品负责人</strong>｜2021.01 - 至今</div>
+        <ul>
+          <li>负责智慧园区、行业数据应用及AI应用等产品线的需求分析、方案设计、研发协同、售前支持与交付推进。</li>
+          <li>2023年起承担产品团队管理与协调职责，负责产品新人的任务分配、培养及方案把关；2023年底兼任测试团队管理工作，统筹两地产品与测试团队共10人的日常协作。</li>
+          <li>2024年组织调整后，作为研发体系唯一保留的产品经理，持续推进研发、销售、客户与合作方之间的需求对齐、售前支持、产品方案与关键问题协调。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">重点项目经历</div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="e-title">制造业质量数据分析平台（高校产研合作）｜产品负责人（产研转化）</div>
+          <div class="e-time">2025.08 - 至今</div>
+        </div>
+        <p class="c-line"><b>项目定位：</b>与高校合作，将研究成果与复杂数据分析需求转化为面向实际业务的行业数据应用产品。</p>
+        <ul>
+          <li>项目合同规模约2,000万元，公司承接金额约300万元；参与约8人。在独自投入约3周内完成甲方需求摸排与关键问题澄清，推动甲方确认与公司合作，为公司赢得项目机会。</li>
+          <li>面向高校专家的非标准数据分析与计算需求，将偏研究导向的业务设想、模型与分析流程抽象为产品功能及可实施研发需求，并在研究表达、业务可用性和实现成本之间完成方案取舍。</li>
+          <li>规划并推动深度研究报告智能体（Research Agent）：根据用户研究需求自动检索相关数据、完成分析并生成研究报告，支持复杂数据应用场景下的研究辅助。</li>
+          <li>设计智能抽取Agent的业务逻辑：基于预先定义的实体及字段规则，从非结构化文本中识别并抽取对应内容，输出结构化结果供后续分析使用。</li>
+          <li>推动字段级数据来源追溯方案上线，使用户可查询关键字段的数据来源，满足复杂计算结果的核验需求；方案获得合作专家与公司管理层采纳。</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="e-title">某市政务智能问答应用｜产品负责人（交付统筹）</div>
+          <div class="e-time">2025.07 - 2025.08</div>
+        </div>
+        <p class="c-line"><b>项目定位：</b>面向政务场景的LLM工作流应用，覆盖公文辅助写作、事项办理指引与自然语言数据查询。</p>
+        <ul>
+          <li>在距交付约1个月时临时接手，发现我方项目整体尚未启动，且自然语言数据查询功能超出既定预算；上报交付风险，协助销售完成方案与成本收益测算，支撑管理层确定投入范围。</li>
+          <li>设计公文、事项办理和数据查询的LLM工作流，明确澄清追问、动态Prompt及知识库的调用逻辑；办理结果需输出适用依据、牵头部门和建议办理流程。</li>
+          <li>输出研发实施逻辑与进度排期，协调甲方、合作方及外包研发资源，在约1个月内完成公文写作、事件处置及约定范围内数据查询功能的开发与验证。</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="e-title">智慧园区AIoT管理平台｜产品负责人</div>
+          <div class="e-time">2022.04 - 2025.05</div>
+        </div>
+        <p class="c-line"><b>项目定位：</b>将园区视频、物联网设备接入与AI算法能力平台化，面向智慧园区、智慧楼宇等场景提供统一设备接入、管理及算法分发能力。</p>
+        <ul>
+          <li>协调3个开发团队完成平台能力设计与研发推进，梳理设备接入、IoT管理、算法分发及标准接口等核心模块；累计支持2万余台设备接入。</li>
+          <li>在组织资源收缩后，承担业务的售前与商务支撑工作，负责方案编制、成本和收益测算、报价模型设计及客户谈判，推动与区域运营商签署合作协议并推进落地。</li>
+          <li>推进研发、销售与客户之间的需求对齐，明确项目实施边界与报价口径，支持多个垂直场景的方案复用。</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="e-title">零售行业会员中台｜产品经理</div>
+          <div class="e-time">2021.07 - 2022.01</div>
+        </div>
+        <p class="c-line"><b>项目定位：</b>面向零售业务的数据分析与营销中台，整合会员数据、交易数据与算法能力，支持用户画像、精准营销与运营分析等场景。</p>
+        <ul>
+          <li>深度参与用户画像、智能推荐等算法的应用落地，负责营销分析模块的业务梳理、产品设计、需求拆解及研发协同。</li>
+          <li>负责会员数据平台的产品设计与开发协调，作为中台的底层能力，提供会员标签、数据服务等标准接口，并承载百万级会员数据接入与管理。</li>
+          <li>参与标签体系、指标配置及算法服务等能力的产品规划与需求导入，推动项目结束后相关能力向通用产品沉淀。</li>
+          <li>参与项目全生命周期管理及验收，支持百万级会员数据的统一接入与存储。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">AI 应用与产品工作流实践</div>
+      <ul>
+        <li>持续跟踪并实践新模型与Agent产品，使用主流AI工具辅助需求分析、方案梳理、信息处理和原型验证。</li>
+        <li>基于Codex设计并迭代研发协作辅助Skill，重点定义任务边界、业务规则、上下文和验收标准，并通过多轮调优提升Agent在具体任务中的输出质量。</li>
+        <li>独立使用AI编程工具完成一款个人应用的需求设计、交互设计与开发，已在个人及小范围真实用户中持续使用和迭代；具备借助Coding Agent将产品设想推进为可用应用的实践经验。</li>
+        <li>关注AI应用的业务价值与可控性，能够从用户任务、数据来源、结果结构、人工校验和异常处理等角度设计AI应用需求，并与研发协同形成实施方案。</li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="section-label">教育经历</div>
+      <p class="c-line">示例大学｜计算机科学与技术｜本科　2015.09 - 2019.07</p>
+    </section>
+  </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleMode(){
+    var mini = document.body.classList.toggle('mini');
+    document.querySelectorAll('.mode-btn').forEach(function(btn){
+      var span = btn.querySelector('span');
+      if(span){ span.textContent = mini ? '完整版' : '简洁版'; }
+      else { btn.textContent = mini ? '查看完整版' : '查看简洁版'; }
+    });
+  }
+
+  function toggleWidth(){
+    var wide = document.body.classList.toggle('wide');
+    var btn = document.getElementById('widthBtn');
+    if(btn){
+      var span = btn.querySelector('span');
+      if(span){ span.textContent = wide ? '居中' : '宽屏'; }
+      else { btn.textContent = wide ? '居中显示' : '宽屏显示'; }
+      btn.classList.toggle('on', wide);
+    }
+  }
+
+  /* 左侧导航滚动高亮 */
+  (function(){
+    var links = document.querySelectorAll('.rail a');
+    var map = [];
+    links.forEach(function(a){
+      var el = document.querySelector(a.getAttribute('href'));
+      if(el) map.push({link:a, el:el});
+    });
+    function spy(){
+      var pos = window.scrollY + 90;
+      var current = null;
+      var atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+      if(atBottom && map.length){
+        current = map[map.length - 1];
+      }else{
+        map.forEach(function(item){
+          if(item.el.offsetTop <= pos) current = item;
+        });
+      }
+      links.forEach(function(a){ a.classList.remove('active'); });
+      if(current){ current.link.classList.add('active'); }
+      else if(map.length){ map[0].link.classList.add('active'); }
+    }
+    window.addEventListener('scroll', spy, {passive:true});
+    spy();
+  })();
+</script>
+</body>
+</html>
