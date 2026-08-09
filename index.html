@@ -208,13 +208,21 @@
     justify-content:flex-end;gap:12px; /* 右对齐，固定宽度消除长短跳动 */
     z-index:3;
   }
+  /* 内容区（图标+文字）包裹层：吞噬覆盖层的定位基准 */
+  body[data-theme="neon"] .content > section > .section-label .sl-core{
+    position:relative;display:inline-flex;align-items:center;gap:12px;
+  }
+  /* neon 下隐藏 base 的横线，吞噬覆盖层替代它 */
+  body[data-theme="neon"] .content > section > .section-label::after{
+    content:none;
+  }
   /* 图标与文字置于覆盖层之下 */
   body[data-theme="neon"] .content > section > .section-label .sl-ic,
   body[data-theme="neon"] .content > section > .section-label .sl-text{
     position:relative;z-index:1;
   }
-  /* 吞噬覆盖层：渐变线条，初始隐藏 */
-  body[data-theme="neon"] .content > section > .section-label::after{
+  /* 吞噬覆盖层：只覆盖内容区（起点=装饰线右侧），初始隐藏 */
+  body[data-theme="neon"] .content > section > .section-label .sl-core::after{
     content:"";position:absolute;top:50%;left:0;
     width:100%;height:24px;border-radius:6px;
     transform:translateY(-50%) scaleX(0);
@@ -224,7 +232,7 @@
     pointer-events:none;
   }
   /* 进入当前页时：从左吞入 → 停留 → 从右往左收缩引出 */
-  body[data-theme="neon"] .content > section.cur > .section-label::after{
+  body[data-theme="neon"] .content > section.cur > .section-label .sl-core::after{
     animation:labelSweep 1.5s cubic-bezier(.77,0,.18,1) forwards;
   }
   @keyframes labelSweep{
@@ -437,6 +445,7 @@
     display:flex;align-items:center;gap:12px;
   }
   .section-label::before{content:"";flex:none;width:6px;height:20px;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--accent-3));}
+  .section-label .sl-core{display:inline-flex;align-items:center;gap:12px;}
   .section-label .sl-ic{width:15px;height:15px;color:var(--accent);flex:none;}
   .section-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--accent-rgb),.35),var(--line));}
   p{color:var(--muted);}
@@ -1070,7 +1079,7 @@
 
   <!-- ================= 2.5 我是谁（人设自述） ================= -->
   <section id="whoami">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-heart"/></svg><span class="sl-text">我是谁 · About Me</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-heart"/></svg><span class="sl-text">我是谁 · About Me</span></span></div>
     <p>先说说我这个人。身边人叫我<strong>「万事通」</strong>——不是因为我什么都懂，而是不管谁带着什么事来找我，工作的事、生活的事、各种奇奇怪怪的事，我总能接住，给出一个<strong>能落地的思路或办法</strong>。</p>
     <p style="margin-top:14px;">我做产品经理快 7 年了，最大的特点是<strong>越乱我越稳</strong>。需求模糊、各方打架、资源不够——这些别人头疼的场面，我反而觉得有得做，能把一团乱麻理成几条清晰的路。</p>
     <p style="margin-top:14px;">我也很愿意动手。这两年流行 vibe coding，我就真的一边学一边把想法做成能用的东西——我始终相信，产品经理不能只会说，得能把自己相信的东西做出来给人看。</p>
@@ -1078,7 +1087,7 @@
 
   <!-- ================= 3. 专业能力概览 ================= -->
   <section id="capability">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-zap"/></svg><span class="sl-text">专业能力概览 · Capabilities</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-zap"/></svg><span class="sl-text">专业能力概览 · Capabilities</span></span></div>
     <p>我做 B/G 端产品做了 6 年，一路跑过连锁餐饮、供应链、医疗健康这些行业数据方向，<strong>产品规划、交付协调、商务测算</strong>这三件事是我日常在做、也做得最多的。</p>
     <p style="margin-top:14px;">多数时候需求是不清的，各方诉求互相打架，资源还总不够。这种环境我反而比较拿手——能先把<strong>业务问题理清楚</strong>，再把说不清的需求变成<strong>能报价、能研发、能交付</strong>的方案。</p>
     <p style="margin-top:14px;">从需求调研到业务建模，再到功能交互设计、研发协同、边界梳理和客户沟通，整个链路我都能独立推动，最后把<strong>关键决策落到地上</strong>。</p>
@@ -1087,7 +1096,7 @@
 
   <!-- ================= 4. 个人特质 ================= -->
   <section id="soft">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-heart"/></svg><span class="sl-text">个人特质 · Character</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-heart"/></svg><span class="sl-text">个人特质 · Character</span></span></div>
     <p>越乱的环境我越稳。信息不全、诉求互相打架的时候，我能把模糊的问题<strong>收敛成清晰可执行的决策路径</strong>，让事情先往前走。</p>
     <p style="margin-top:14px;"><span class="theme-emoji">🗣️</span> 我在客户和研发之间来回切换语言——用客户的嘴听懂业务，用研发的话讲清需求，让需求在两端之间<strong>准确、无损地传递</strong>。</p>
     <p style="margin-top:14px;"><span class="theme-emoji">🙌</span> 我习惯把项目当成自己的事，对结果负责到底。从问题定义到交付验收都接着，协作里没人管的地方，我主动补上。</p>
@@ -1098,7 +1107,7 @@
 
   <!-- ================= 5. 工作经验 ================= -->
   <section id="experience">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-briefcase"/></svg><span class="sl-text">工作经验 · Experience</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-briefcase"/></svg><span class="sl-text">工作经验 · Experience</span></span></div>
 
     <div class="entry">
       <div class="entry-head">
@@ -1119,7 +1128,7 @@
 
   <!-- ================= 6. 产品案例 ================= -->
   <section id="cases" class="case-index">
-<div class="section-label"><svg class="ic sl-ic"><use href="#i-layers"/></svg><span class="sl-text">产品案例 · Case Studies</span></div>
+<div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-layers"/></svg><span class="sl-text">产品案例 · Case Studies</span></span></div>
     <p style="font-size:14px;color:var(--faint);margin-bottom:14px;">每个项目按「定位 → 关键动作与结果」完整展示；点开「💡 沉淀与收获」可看每个项目沉淀下来的方法论。</p>
     <div class="case-nav">
       <a class="case-nav-item" href="#case-1"><span class="cn-num">01</span><span>连锁餐饮门店数字化平台</span></a>
@@ -1224,7 +1233,7 @@
 
   <!-- ================= 7. 为什么看新机会 ================= -->
   <section id="opportunity" class="only-full">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-compass"/></svg><span class="sl-text">为什么看新机会 · Why Now</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-compass"/></svg><span class="sl-text">为什么看新机会 · Why Now</span></span></div>
     <div class="callout">
       <p>在现公司近 <strong>7 年</strong>，从项目交付、产品设计到售前与跨团队协调，承担过比较完整的职责，积累了连锁餐饮数字化、供应链协同等项目的落地经验。</p>
       <p>近两年公司处于<strong>业务与研发组织收缩阶段</strong>，产品岗位能覆盖的边界越来越偏向项目维持与交付保障，AI 应用方向的持续投入与成长空间相对有限。</p>
@@ -1234,13 +1243,13 @@
 
   <!-- ================= 8. 我的风格 ================= -->
   <section id="collaborate" class="only-full">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-message"/></svg><span class="sl-text">我的风格 · My Style</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-message"/></svg><span class="sl-text">我的风格 · My Style</span></span></div>
     <p>跟我一起干活，不用太拘谨。有问题直接说就行，说不定我正好有些思路，咱们可以一起琢磨。有不同想法或者觉得哪里不对，直接讲出来就好，我这个人听劝，想法也转得快——你的观点我吸收进来，和自己的想法合到一起，方案往往更好。如果已经有方案，也把背景和考虑讲给我听，我执行起来能更贴合你的预期。交给我办的事，我会放在心上，把结果做扎实。</p>
   </section>
 
   <!-- ================= 9. 教育背景 ================= -->
   <section id="education">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-book"/></svg><span class="sl-text">教育背景 · Education</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-book"/></svg><span class="sl-text">教育背景 · Education</span></span></div>
     <div class="entry">
       <div class="entry-head">
         <div class="e-title">示例大学</div>
@@ -1252,7 +1261,7 @@
 
   <!-- ================= 9.5 联系我（neon 最后一页） ================= -->
   <section id="contact-page" class="contact-page">
-    <div class="section-label"><svg class="ic sl-ic"><use href="#i-send"/></svg><span class="sl-text">联系我 · Contact</span></div>
+    <div class="section-label"><span class="sl-core"><svg class="ic sl-ic"><use href="#i-send"/></svg><span class="sl-text">联系我 · Contact</span></span></div>
     <div class="contact-hero">
       <p class="ch-eyebrow">你好，我是</p>
       <p class="ch-name">明霞</p>
