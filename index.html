@@ -670,8 +670,13 @@
   }
 
   /* ============ Hero ============ */
-  .hero{padding:72px 0 40px;text-align:center;}
+  .hero{padding:72px 0 40px;text-align:center;position:relative;overflow:hidden;}
+  .hero .hero-particles{
+    position:absolute;inset:0;width:100%;height:100%;
+    pointer-events:none;z-index:0;
+  }
   .hero-eyebrow{font-size:14px;color:var(--accent);letter-spacing:.14em;margin-bottom:8px;font-weight:600;}
+  .hero > *:not(.hero-particles){position:relative;z-index:1;}
   .hero h1{
     font-size:52px;line-height:1.15;font-weight:800;
     background:linear-gradient(100deg,var(--accent) 0%,var(--accent-2) 55%,var(--accent-3) 100%);
@@ -1084,6 +1089,7 @@
 
   <!-- ================= 1. Hero ================= -->
   <section class="hero" id="hero">
+    <canvas class="hero-particles" aria-hidden="true"></canvas>
     <p class="hero-eyebrow">你好，我是</p>
     <h1>明霞</h1>
     <p class="role">高级产品经理<span class="sep">·</span>AI 应用与复杂业务解决方案</p>
@@ -1725,6 +1731,110 @@
       playIntro();
       setTimeout(function(){ deck.init(); deck.jump(0); }, 100);
     }
+  })();
+
+  /* ============ Hero 粒子光点（轻量 canvas，借鉴粒子美学） ============ */
+  (function(){
+    var canvas = document.querySelector('.hero .hero-particles');
+    if(!canvas) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var running = true;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+
+    /* 主题色：从 CSS 变量读取，随主题切换变化 */
+    function themeColors(){
+      var cs = getComputedStyle(document.body);
+      var a = cs.getPropertyValue('--accent').trim() || '#7c3aed';
+      var a2 = cs.getPropertyValue('--accent-2').trim() || '#a78bfa';
+      var a3 = cs.getPropertyValue('--accent-3').trim() || '#f472b6';
+      return [a, a2, a3];
+    }
+
+    function resize(){
+      var rect = canvas.parentElement.getBoundingClientRect();
+      W = Math.max(rect.width, 320);
+      H = Math.max(rect.height, 240);
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function makeParticle(colors){
+      var base = colors[Math.floor(Math.random() * colors.length)];
+      return {
+        x: Math.random() * W,
+        y: H + 10 + Math.random() * 40,
+        r: 1 + Math.random() * 2.4,
+        vy: -(0.2 + Math.random() * 0.55),       /* 缓缓上升 */
+        vx: (Math.random() - 0.5) * 0.3,          /* 左右漂移 */
+        drift: Math.random() * Math.PI * 2,
+        base: base,
+        tw: 0.5 + Math.random() * 1.2,            /* 呼吸周期 */
+        phase: Math.random() * Math.PI * 2
+      };
+    }
+
+    function init(count){
+      particles = [];
+      var colors = themeColors();
+      for(var i = 0; i < count; i++) particles.push(makeParticle(colors));
+    }
+
+    var last = 0;
+    function frame(t){
+      if(!running) return;
+      ctx.clearRect(0, 0, W, H);
+      var dt = last ? (t - last) / 1000 : 0.016;
+      last = t;
+      var step = Math.min(dt, 0.05);
+      for(var i = 0; i < particles.length; i++){
+        var p = particles[i];
+        p.y += p.vy * 60 * step;
+        p.x += p.vx * 60 * step + Math.sin(p.drift += 0.01) * 0.25;
+        /* 呼吸闪烁 */
+        var alpha = 0.25 + 0.5 * (0.5 + 0.5 * Math.sin(p.phase + t / 1000 * p.tw * 2));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.base;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+        /* 微光晕 */
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * 3.2, 0, Math.PI * 2);
+        ctx.fillStyle = p.base;
+        ctx.globalAlpha = alpha * 0.14;
+        ctx.fill();
+        /* 越界回收 */
+        if(p.y < -20) particles[i] = makeParticle(themeColors());
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(frame);
+    }
+
+    var timer = null;
+    function start(){
+      if(timer) clearTimeout(timer);
+      resize();
+      init(Math.floor(Math.max(W, 480) / 12));
+      running = true;
+      requestAnimationFrame(frame);
+    }
+    function pause(){
+      running = false;
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(function(){ start(); }, 150);
+    }
+
+    window.addEventListener('resize', pause);
+    /* 主题切换时重取色 */
+    var observer = new MutationObserver(function(){ start(); });
+    observer.observe(document.body, {attributes:true, attributeFilter:['data-theme']});
+    start();
   })();
 </script>
 </body>
