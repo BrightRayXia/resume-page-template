@@ -224,9 +224,9 @@
   body[data-theme="neon"] .content > section > .section-label .sl-text{
     position:relative;z-index:1;
   }
-  /* 装饰吞噬色块：唯一色块，位于内容区左侧（图标前），平时=6px 装饰线，动画延伸吞噬图标+文字 */
+  /* 装饰吞噬色块：唯一色块，位于内容区左侧（图标前，left:-18px 不压图标），平时=6px 装饰线，动画延伸吞噬图标+文字 */
   body[data-theme="neon"] .content > section > .section-label .sl-core::before{
-    content:"";position:absolute;top:50%;left:0;
+    content:"";position:absolute;top:50%;left:-18px;
     width:6px;height:18px;border-radius:3px;
     transform:translateY(-50%);
     background:linear-gradient(90deg,#2dd4bf,#22d3ee 60%,#fb923c);
@@ -235,11 +235,11 @@
   }
   /* 新页(cur)：色块初始铺满内容区（图标+文字），动画从右往左缩回露出标题（写出） */
   body[data-theme="neon"] .content > section.cur > .section-label .sl-core::before{
-    width:100%;
+    width:calc(100% + 18px);
     animation:labelReveal 1s cubic-bezier(.77,0,.18,1) .45s forwards;
   }
   @keyframes labelReveal{
-    0%{ width:100%; }
+    0%{ width:calc(100% + 18px); }
     100%{ width:6px; } /* 从右往左缩回，露出新标题；色块收成装饰线大小 */
   }
   /* 旧页(prev)：色块加长铺满内容区并右移衔接新标题位置（擦除），配合旧页淡出 */
@@ -248,8 +248,8 @@
   }
   @keyframes labelErase{
     0%{ width:6px; transform:translateY(-50%) translateX(0); }
-    60%{ width:calc(100% - var(--sw-shift, 0px)); transform:translateY(-50%) translateX(0); } /* 先加长到新标题宽度 */
-    100%{ width:calc(100% - var(--sw-shift, 0px)); transform:translateY(-50%) translateX(var(--sw-shift, 0px)); } /* 再右移覆盖超出部分 */
+    60%{ width:calc(100% + 18px - var(--sw-shift, 0px)); transform:translateY(-50%) translateX(0); } /* 先加长到新标题宽度 */
+    100%{ width:calc(100% + 18px - var(--sw-shift, 0px)); transform:translateY(-50%) translateX(var(--sw-shift, 0px)); } /* 再右移覆盖超出部分 */
   }
   /* 当前页内容错峰淡入 */
   body[data-theme="neon"] .content > section.cur > *{
