@@ -249,6 +249,18 @@
     animation:slideIn .5s ease forwards;
   }
   body[data-theme="neon"] .content > section.cur > .section-label{animation:none;opacity:1;}
+  /* 旧页（prev）的标题立即隐藏，不参与淡出过渡——避免切换时中上位置闪现旧标题 */
+  body[data-theme="neon"] .content > section.prev .section-label,
+  body[data-theme="neon"] .content > section.prev .hero h1,
+  body[data-theme="neon"] .content > section.prev .hero-eyebrow,
+  body[data-theme="neon"] .content > section.prev .role,
+  body[data-theme="neon"] .content > section.prev .e-title,
+  body[data-theme="neon"] .content > section.prev h1,
+  body[data-theme="neon"] .content > section.prev h2{
+    opacity:0 !important;
+    transition:none;
+    visibility:hidden;
+  }
   body[data-theme="neon"] .content > section.cur > *:nth-child(2){animation-delay:.08s;}
   body[data-theme="neon"] .content > section.cur > *:nth-child(3){animation-delay:.15s;}
   body[data-theme="neon"] .content > section.cur > *:nth-child(4){animation-delay:.22s;}
