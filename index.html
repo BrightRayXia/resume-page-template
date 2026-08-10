@@ -215,29 +215,26 @@
   body[data-theme="neon"] .content > section > .section-label::before{
     content:none;
   }
-  /* 装饰线：标题最左侧（flex 第一子项，图标前），固定位置 */
+  /* neon 下隐藏 base 的横线与原装饰线 */
   body[data-theme="neon"] .content > section > .section-label::before{
-    content:"";width:6px;height:18px;flex:none;
-    background:linear-gradient(180deg,#2dd4bf,#fb923c);
-    border-radius:3px;
-    position:relative;z-index:6;
+    content:none;
   }
   /* 图标与文字置于色块之下 */
   body[data-theme="neon"] .content > section > .section-label .sl-ic,
   body[data-theme="neon"] .content > section > .section-label .sl-text{
     position:relative;z-index:1;
   }
-  /* 吞噬色块：覆盖文字区（起点=文字左缘），宽度随文字长短自适应 */
-  body[data-theme="neon"] .content > section > .section-label .sl-text::before{
+  /* 装饰吞噬色块：唯一色块，位于内容区左侧（图标前），平时=6px 装饰线，动画延伸吞噬图标+文字 */
+  body[data-theme="neon"] .content > section > .section-label .sl-core::before{
     content:"";position:absolute;top:50%;left:0;
     width:6px;height:18px;border-radius:3px;
     transform:translateY(-50%);
     background:linear-gradient(90deg,#2dd4bf,#22d3ee 60%,#fb923c);
-    z-index:5;
+    z-index:6;
     pointer-events:none;
   }
-  /* 新页(cur)：色块初始铺满文字区（宽度=文字宽度），动画从右往左缩回露出标题（写出） */
-  body[data-theme="neon"] .content > section.cur > .section-label .sl-text::before{
+  /* 新页(cur)：色块初始铺满内容区（图标+文字），动画从右往左缩回露出标题（写出） */
+  body[data-theme="neon"] .content > section.cur > .section-label .sl-core::before{
     width:100%;
     animation:labelReveal 1s cubic-bezier(.77,0,.18,1) .45s forwards;
   }
@@ -245,8 +242,8 @@
     0%{ width:100%; }
     100%{ width:6px; } /* 从右往左缩回，露出新标题；色块收成装饰线大小 */
   }
-  /* 旧页(prev)：色块加长铺满旧文字并右移衔接新标题位置（擦除），配合旧页淡出 */
-  body[data-theme="neon"] .content > section.prev > .section-label .sl-text::before{
+  /* 旧页(prev)：色块加长铺满内容区并右移衔接新标题位置（擦除），配合旧页淡出 */
+  body[data-theme="neon"] .content > section.prev > .section-label .sl-core::before{
     animation:labelErase .6s cubic-bezier(.77,0,.18,1) forwards;
   }
   @keyframes labelErase{
@@ -1660,9 +1657,9 @@
         if(idx === i) s.classList.add('cur');
         else if(idx === old) s.classList.add('prev');
       });
-      // 旧页色块右移量：新标题文字起点 - 旧标题文字起点（覆盖长标题超出新标题的部分）
-      var oldText = this.slides[old] && this.slides[old].querySelector('.section-label .sl-text');
-      var newText = this.slides[i].querySelector('.section-label .sl-text');
+      // 旧页色块右移量：新标题内容区起点 - 旧标题内容区起点（覆盖长标题超出新标题的部分）
+      var oldText = this.slides[old] && this.slides[old].querySelector('.section-label .sl-core');
+      var newText = this.slides[i].querySelector('.section-label .sl-core');
       if(oldText && newText && old !== i){
         var shift = newText.getBoundingClientRect().left - oldText.getBoundingClientRect().left;
         oldText.style.setProperty('--sw-shift', Math.max(0, shift) + 'px');
