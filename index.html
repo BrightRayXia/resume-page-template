@@ -220,8 +220,8 @@
   body[data-theme="neon"] .content > section > .section-label .sl-text{
     position:relative;z-index:1;
   }
-  /* 装饰色块：定位在内容区左侧，平时=6px 装饰线；换页时配合「擦→写」动画 */
-  body[data-theme="neon"] .content > section > .section-label .sl-core::before{
+  /* 装饰色块：以文字为基准（左缘=装饰线，右缘=文字右缘），宽度随文字长短自适应 */
+  body[data-theme="neon"] .content > section > .section-label .sl-text::before{
     content:"";position:absolute;top:50%;left:-18px;
     width:6px;height:18px;border-radius:3px;
     transform:translateY(-50%);
@@ -229,8 +229,8 @@
     z-index:6;
     pointer-events:none;
   }
-  /* 新页(cur)：色块初始铺满盖住新标题，动画从右往左缩回露出标题（写出） */
-  body[data-theme="neon"] .content > section.cur > .section-label .sl-core::before{
+  /* 新页(cur)：色块初始铺满文字区（宽度=文字宽度），动画从右往左缩回露出标题（写出） */
+  body[data-theme="neon"] .content > section.cur > .section-label .sl-text::before{
     width:calc(100% + 18px);
     animation:labelReveal 1s cubic-bezier(.77,0,.18,1) .45s forwards;
   }
@@ -238,13 +238,13 @@
     0%{ width:calc(100% + 18px); }
     100%{ width:6px; } /* 从右往左缩回，露出新标题；装饰线保持可见 */
   }
-  /* 旧页(prev)：色块从 6px 铺满盖住旧标题（擦除），配合旧页淡出 */
-  body[data-theme="neon"] .content > section.prev > .section-label .sl-core::before{
+  /* 旧页(prev)：色块从 6px 铺满文字区盖住旧标题（擦除），配合旧页淡出 */
+  body[data-theme="neon"] .content > section.prev > .section-label .sl-text::before{
     animation:labelErase .5s cubic-bezier(.77,0,.18,1) forwards;
   }
   @keyframes labelErase{
     0%{ width:6px; }
-    100%{ width:calc(100% + 18px); } /* 从左往右铺满，盖住旧标题 */
+    100%{ width:calc(100% + 18px); } /* 从左往右铺满文字区，盖住旧标题 */
   }
   /* 当前页内容错峰淡入 */
   body[data-theme="neon"] .content > section.cur > *{
