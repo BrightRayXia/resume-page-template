@@ -212,39 +212,36 @@
   body[data-theme="neon"] .content > section > .section-label .sl-core{
     position:relative;display:inline-flex;align-items:center;gap:12px;
   }
-  /* neon 下隐藏 base 的横线，吞噬覆盖层替代它 */
+  /* neon 下隐藏 base 的横线与原装饰线，吞噬色块替代它 */
   body[data-theme="neon"] .content > section > .section-label::after{
     content:none;
   }
-  /* 图标与文字置于覆盖层之下 */
+  body[data-theme="neon"] .content > section > .section-label::before{
+    content:none;
+  }
+  /* 图标与文字置于色块之下 */
   body[data-theme="neon"] .content > section > .section-label .sl-ic,
   body[data-theme="neon"] .content > section > .section-label .sl-text{
     position:relative;z-index:1;
   }
-  /* 吞噬覆盖层：只覆盖内容区（起点=装饰线右侧），初始隐藏 */
-  body[data-theme="neon"] .content > section > .section-label .sl-core::after{
-    content:"";position:absolute;top:50%;left:0;
-    width:100%;height:24px;border-radius:6px;
-    transform:translateY(-50%) scaleX(0);
-    transform-origin:left center;
+  /* 装饰色块：定位在内容区左侧，平时=6px 装饰线，进入当前页时从左到右铺满吞噬文字再缩回 */
+  body[data-theme="neon"] .content > section > .section-label .sl-core::before{
+    content:"";position:absolute;top:50%;left:-18px;
+    width:6px;height:18px;border-radius:3px;
+    transform:translateY(-50%);
     background:linear-gradient(90deg,#2dd4bf,#22d3ee 60%,#fb923c);
-    z-index:5;
+    z-index:6;
     pointer-events:none;
   }
-  /* 进入当前页时：从左吞入 → 停留 → 从右往左收缩引出 */
-  body[data-theme="neon"] .content > section.cur > .section-label .sl-core::after{
+  /* 进入当前页时：装饰线从左到右铺满吞噬 → 停留 → 缩回装饰线大小 */
+  body[data-theme="neon"] .content > section.cur > .section-label .sl-core::before{
     animation:labelSweep 1.5s cubic-bezier(.77,0,.18,1) forwards;
   }
   @keyframes labelSweep{
-    0%{ transform:translateY(-50%) scaleX(0); transform-origin:left center; }
-    35%{ transform:translateY(-50%) scaleX(1); transform-origin:left center; }  /* 从左往右铺满，吞噬 */
-    55%{ transform:translateY(-50%) scaleX(1); transform-origin:left center; opacity:1; }
-    100%{ transform:translateY(-50%) scaleX(0); transform-origin:right center; opacity:0; } /* 从右往左收缩，引出标题 */
-  }
-  body[data-theme="neon"] .content > section > .section-label::before{
-    content:"";width:6px;height:18px;flex:none;
-    background:linear-gradient(180deg,#2dd4bf,#fb923c);
-    border-radius:3px;
+    0%{ width:6px; }
+    35%{ width:calc(100% + 18px); }  /* 从左往右铺满，吞噬图标+文字 */
+    55%{ width:calc(100% + 18px); }
+    100%{ width:6px; } /* 缩回装饰线大小，从右往左露出标题；装饰线保持可见 */
   }
   /* 当前页内容错峰淡入 */
   body[data-theme="neon"] .content > section.cur > *{
