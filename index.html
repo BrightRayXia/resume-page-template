@@ -151,16 +151,12 @@
     margin:0;padding:0;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     opacity:0;visibility:hidden;
-    transform:translateX(60px);
-    transition:opacity .55s ease, transform .55s cubic-bezier(.22,.61,.36,1), visibility 0s .55s;
-    will-change:opacity,transform;
-  }
-  body[data-theme="neon"] .content > section.prev{
-    transform:translateX(-60px);
+    transition:opacity .55s ease, visibility 0s .55s;
+    will-change:opacity;
   }
   body[data-theme="neon"] .content > section.cur{
-    opacity:1;visibility:visible;transform:translateX(0);
-    transition:opacity .55s ease, transform .55s cubic-bezier(.22,.61,.36,1), visibility 0s;
+    opacity:1;visibility:visible;
+    transition:opacity .55s ease, visibility 0s;
     z-index:2;
   }
   /* 正文内容框：所有直接子元素统一宽度、垂直居中 */
@@ -254,6 +250,10 @@
   body[data-theme="neon"] .content > section.cur > *{
     opacity:0;transform:translateY(20px);
     animation:slideIn .5s ease forwards;
+  }
+  /* label 始终水平居中：覆盖 slideIn 的 translateY 残留，确保 translateX(-50%) 生效 */
+  body[data-theme="neon"] .content > section > .section-label{
+    transform:translateX(-50%) !important;
   }
   body[data-theme="neon"] .content > section.cur > .section-label{animation:none;opacity:1;}
   /* 旧页（prev）：section-label 参与「擦除」动画（色块铺满盖住后随页面淡出），其余标题立即隐藏 */
