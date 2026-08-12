@@ -6,7 +6,7 @@
 
 ## 在线演示
 
-**GitHub Pages：** https://brightrayxia.github.io/resume-page-template/
+**GitHub Pages：** https://ming-xia.github.io/resume-page-template/
 
 ## 特性
 
@@ -26,7 +26,7 @@
 
 ## 推荐工具：用 Patchly 改这份简历
 
-想改这份模板又不想手改 HTML？试试我做的 **[Patchly](https://github.com/BrightRayXia/patchly)** —— AI 生成 HTML 的可视化微调工具（[在线体验](https://brightrayxia.github.io/patchly/)）：
+想改这份模板又不想手改 HTML？试试我做的 **[Patchly](https://github.com/ming-xia/patchly)** —— AI 生成 HTML 的可视化微调工具（[在线体验](https://ming-xia.github.io/patchly/)）：
 
 - **手动改**：把 `index.html` 拖进 Patchly，单击文字直接改、选中元素换色 / 复制 / 移动，简单修改不花 token
 - **AI 自动改**：选中元素说一句人话（「把这段改成……」「标题换个颜色」），AI 生成结构化修改；或用 AI 生成整份 HTML 后拖进 Patchly 精修
